@@ -8,7 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
+    <style>
+/* ===== CSS Variables ===== */
 :root {
     --primary: #e63946;
     --primary-dark: #c1121f;
@@ -31,123 +32,777 @@
     --radius-lg: 16px;
     --transition: all 0.25s ease;
 }
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { font-size: 16px; scroll-behavior: smooth; }
-body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; min-height: 100vh; }
-.app-container { max-width: 720px; margin: 0 auto; padding: 0 16px; }
-.app-header { text-align: center; padding: 32px 16px 24px; }
-.logo { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 8px; }
-.logo-icon { font-size: 2rem; }
-.logo h1 { font-size: 1.75rem; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
-.tagline { color: var(--text-light); font-size: 0.95rem; font-weight: 400; }
-.card { background: var(--card-bg); border-radius: var(--radius-lg); padding: 24px; margin-bottom: 16px; box-shadow: var(--shadow); border: 1px solid var(--border); animation: fadeInUp 0.4s ease both; }
+
+/* ===== Reset & Base ===== */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* ===== App Container ===== */
+.app-container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px;
+}
+
+/* ===== Header ===== */
+.app-header {
+    text-align: center;
+    padding: 32px 16px 24px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo h1 {
+    font-size: 1.75rem;
+    font-weight: 800;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+.tagline {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 400;
+}
+
+/* ===== Cards ===== */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--secondary);
+    margin-bottom: 20px;
+}
+
+.step-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: var(--primary);
+    color: white;
+    border-radius: 50%;
+    font-size: 0.85rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+/* ===== City Grid ===== */
+.city-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+}
+
+.city-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 10px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+    background: var(--card-bg);
+}
+
+.city-card:hover {
+    border-color: var(--primary-light);
+    background: var(--primary-light);
+    transform: translateY(-2px);
+}
+
+.city-card.active {
+    border-color: var(--primary);
+    background: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15);
+}
+
+.city-emoji {
+    font-size: 1.5rem;
+}
+
+.city-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--secondary);
+}
+
+.city-name-ar {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    direction: rtl;
+}
+
+/* ===== Route Inputs ===== */
+.route-inputs {
+    margin-bottom: 16px;
+}
+
+.input-group {
+    margin-bottom: 4px;
+    position: relative;
+}
+
+.input-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 6px;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.pickup-dot {
+    background: var(--success);
+}
+
+.dropoff-dot {
+    background: var(--primary);
+}
+
+.input-wrapper {
+    display: flex;
+    gap: 8px;
+}
+
+.input-wrapper input {
+    flex: 1;
+    padding: 12px 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: var(--transition);
+    background: var(--bg);
+}
+
+.input-wrapper input:focus {
+    outline: none;
+    border-color: var(--primary);
+    background: white;
+    box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1);
+}
+
+.locate-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: white;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.locate-btn:hover {
+    border-color: var(--secondary-light);
+    color: var(--secondary);
+    background: #f0f4f8;
+}
+
+.suggestions-list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    display: none;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.suggestions-list.active {
+    display: block;
+}
+
+.suggestion-item {
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+}
+
+.suggestion-item:last-child {
+    border-bottom: none;
+}
+
+.suggestion-item:hover {
+    background: var(--primary-light);
+}
+
+/* Route Connector */
+.route-connector {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 0;
+    position: relative;
+}
+
+.connector-line {
+    position: absolute;
+    left: 20px;
+    width: 2px;
+    height: 100%;
+    background: var(--border);
+}
+
+.swap-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 2px solid var(--border);
+    border-radius: 50%;
+    background: white;
+    color: var(--text-light);
+    cursor: pointer;
+    transition: var(--transition);
+    z-index: 1;
+}
+
+.swap-btn:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+    background: var(--primary-light);
+    transform: rotate(180deg);
+}
+
+/* ===== Map ===== */
+.map-container {
+    position: relative;
+    margin-bottom: 16px;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 2px solid var(--border);
+}
+
+#map {
+    height: 300px;
+    width: 100%;
+    z-index: 1;
+}
+
+.map-hint {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(29, 53, 87, 0.85);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    z-index: 500;
+    white-space: nowrap;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+/* Route Info */
+.route-info {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.info-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 12px;
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+}
+
+.info-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.info-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--secondary);
+}
+
+/* ===== Vehicle Grid ===== */
+.vehicle-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+}
+
+.vehicle-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 12px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: var(--transition);
+    text-align: center;
+}
+
+.vehicle-card:hover {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    transform: translateY(-2px);
+}
+
+.vehicle-card.active {
+    border-color: var(--accent);
+    background: var(--accent-light);
+    box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2);
+}
+
+.vehicle-icon {
+    font-size: 2rem;
+}
+
+.vehicle-name {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--secondary);
+}
+
+.vehicle-capacity {
+    font-size: 0.75rem;
+    color: var(--text-light);
+}
+
+.vehicle-base {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--primary);
+    background: var(--primary-light);
+    padding: 2px 8px;
+    border-radius: 10px;
+}
+
+/* ===== Options ===== */
+.options-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.option-item {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    transition: var(--transition);
+}
+
+.option-item:has(input:checked) {
+    border-color: var(--primary);
+    background: var(--primary-light);
+}
+
+.toggle-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    cursor: pointer;
+    gap: 12px;
+}
+
+.option-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.option-name {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+.option-desc {
+    font-size: 0.78rem;
+    color: var(--text-light);
+}
+
+/* Toggle Switch */
+.toggle-label input {
+    display: none;
+}
+
+.toggle-switch {
+    position: relative;
+    width: 48px;
+    height: 26px;
+    background: var(--text-lighter);
+    border-radius: 13px;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: var(--transition);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.toggle-label input:checked + .toggle-switch {
+    background: var(--primary);
+}
+
+.toggle-label input:checked + .toggle-switch::after {
+    transform: translateX(22px);
+}
+
+/* ===== Price Results ===== */
+.price-results {
+    border: 2px solid var(--primary-light);
+    background: linear-gradient(135deg, #fff 0%, var(--primary-light) 100%);
+}
+
+.price-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.price-empty {
+    text-align: center;
+    padding: 24px;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.price-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 0.9rem;
+}
+
+.price-line.subtotal {
+    border-top: 2px dashed var(--border);
+    padding-top: 12px;
+    margin-top: 4px;
+}
+
+.price-line-label {
+    color: var(--text-light);
+}
+
+.price-line-value {
+    font-weight: 600;
+    color: var(--text);
+}
+
+.price-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    background: var(--primary);
+    color: white;
+    border-radius: var(--radius);
+    margin-top: 8px;
+}
+
+.price-total-label {
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.price-total-value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.price-total-currency {
+    font-size: 0.85rem;
+    font-weight: 500;
+    opacity: 0.9;
+}
+
+.price-tip {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    background: rgba(42, 157, 143, 0.1);
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    color: var(--success);
+    margin-top: 8px;
+}
+
+.price-range {
+    text-align: center;
+    padding: 8px;
+    font-size: 0.82rem;
+    color: var(--text-light);
+    background: var(--bg);
+    border-radius: var(--radius-sm);
+}
+
+/* ===== Provider Comparison ===== */
+.provider-comparison {
+    border: 2px solid #e0e7ff;
+    background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%);
+}
+
+.provider-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.provider-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border: 2px solid var(--border);
+    border-radius: var(--radius);
+    background: white;
+    transition: var(--transition);
+}
+
+.provider-card.cheapest {
+    border-color: var(--success);
+    background: rgba(42, 157, 143, 0.05);
+}
+
+.provider-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.provider-logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: white;
+}
+
+.provider-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.provider-name {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--secondary);
+}
+
+.provider-eta {
+    font-size: 0.78rem;
+    color: var(--text-light);
+}
+
+.provider-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.provider-price {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--secondary);
+}
+
+.provider-badge {
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: var(--success);
+    color: white;
+}
+
+/* ===== Footer ===== */
+.app-footer {
+    text-align: center;
+    padding: 24px 16px;
+    color: var(--text-lighter);
+    font-size: 0.8rem;
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeInUp 0.4s ease both;
+}
+
 .card:nth-child(2) { animation-delay: 0.05s; }
 .card:nth-child(3) { animation-delay: 0.1s; }
 .card:nth-child(4) { animation-delay: 0.15s; }
 .card:nth-child(5) { animation-delay: 0.2s; }
 .card:nth-child(6) { animation-delay: 0.25s; }
-.card-title { display: flex; align-items: center; gap: 12px; font-size: 1.1rem; font-weight: 700; color: var(--secondary); margin-bottom: 20px; }
-.step-badge { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; background: var(--primary); color: white; border-radius: 50%; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; }
-.city-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
-.city-card { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition); text-align: center; background: var(--card-bg); }
-.city-card:hover { border-color: var(--primary-light); background: var(--primary-light); transform: translateY(-2px); }
-.city-card.active { border-color: var(--primary); background: var(--primary-light); box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.15); }
-.city-emoji { font-size: 1.5rem; }
-.city-name { font-weight: 600; font-size: 0.85rem; color: var(--secondary); }
-.city-name-ar { font-size: 0.75rem; color: var(--text-light); direction: rtl; }
-.route-inputs { margin-bottom: 16px; }
-.input-group { margin-bottom: 4px; position: relative; }
-.input-group label { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; color: var(--text); margin-bottom: 6px; }
-.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-.pickup-dot { background: var(--success); }
-.dropoff-dot { background: var(--primary); }
-.input-wrapper { display: flex; gap: 8px; }
-.input-wrapper input { flex: 1; padding: 12px 16px; border: 2px solid var(--border); border-radius: var(--radius-sm); font-size: 0.95rem; font-family: inherit; transition: var(--transition); background: var(--bg); }
-.input-wrapper input:focus { outline: none; border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(230, 57, 70, 0.1); }
-.locate-btn { display: flex; align-items: center; justify-content: center; width: 44px; border: 2px solid var(--border); border-radius: var(--radius-sm); background: white; color: var(--text-light); cursor: pointer; transition: var(--transition); flex-shrink: 0; }
-.locate-btn:hover { border-color: var(--secondary-light); color: var(--secondary); background: #f0f4f8; }
-.suggestions-list { position: absolute; top: 100%; left: 0; right: 0; background: white; border: 1px solid var(--border); border-radius: var(--radius-sm); box-shadow: var(--shadow-lg); z-index: 1000; display: none; max-height: 200px; overflow-y: auto; }
-.suggestions-list.active { display: block; }
-.suggestion-item { padding: 10px 16px; cursor: pointer; font-size: 0.9rem; border-bottom: 1px solid var(--border); transition: background 0.15s; }
-.suggestion-item:last-child { border-bottom: none; }
-.suggestion-item:hover { background: var(--primary-light); }
-.route-connector { display: flex; align-items: center; justify-content: center; padding: 4px 0; position: relative; }
-.connector-line { position: absolute; left: 20px; width: 2px; height: 100%; background: var(--border); }
-.swap-btn { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border: 2px solid var(--border); border-radius: 50%; background: white; color: var(--text-light); cursor: pointer; transition: var(--transition); z-index: 1; }
-.swap-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); transform: rotate(180deg); }
-.map-container { position: relative; margin-bottom: 16px; border-radius: var(--radius); overflow: hidden; border: 2px solid var(--border); }
-#map { height: 300px; width: 100%; z-index: 1; }
-.map-hint { position: absolute; bottom: 12px; left: 50%; transform: translateX(-50%); background: rgba(29, 53, 87, 0.85); color: white; padding: 6px 16px; border-radius: 20px; font-size: 0.8rem; z-index: 500; white-space: nowrap; pointer-events: none; transition: opacity 0.3s; }
-.route-info { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.info-item { display: flex; flex-direction: column; align-items: center; padding: 12px; background: var(--bg); border-radius: var(--radius-sm); }
-.info-label { font-size: 0.75rem; font-weight: 600; color: var(--text-light); text-transform: uppercase; letter-spacing: 0.5px; }
-.info-value { font-size: 1.25rem; font-weight: 700; color: var(--secondary); }
-.vehicle-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-.vehicle-card { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 12px; border: 2px solid var(--border); border-radius: var(--radius); cursor: pointer; transition: var(--transition); text-align: center; }
-.vehicle-card:hover { border-color: var(--accent); background: var(--accent-light); transform: translateY(-2px); }
-.vehicle-card.active { border-color: var(--accent); background: var(--accent-light); box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.2); }
-.vehicle-icon { font-size: 2rem; }
-.vehicle-name { font-weight: 600; font-size: 0.85rem; color: var(--secondary); }
-.vehicle-capacity { font-size: 0.75rem; color: var(--text-light); }
-.vehicle-base { font-size: 0.75rem; font-weight: 600; color: var(--primary); background: var(--primary-light); padding: 2px 8px; border-radius: 10px; }
-.options-grid { display: flex; flex-direction: column; gap: 8px; }
-.option-item { border: 1px solid var(--border); border-radius: var(--radius-sm); overflow: hidden; transition: var(--transition); }
-.option-item:has(input:checked) { border-color: var(--primary); background: var(--primary-light); }
-.toggle-label { display: flex; align-items: center; justify-content: space-between; padding: 12px 16px; cursor: pointer; gap: 12px; }
-.option-text { display: flex; flex-direction: column; }
-.option-name { font-weight: 600; font-size: 0.9rem; color: var(--text); }
-.option-desc { font-size: 0.78rem; color: var(--text-light); }
-.toggle-label input { display: none; }
-.toggle-switch { position: relative; width: 48px; height: 26px; background: var(--text-lighter); border-radius: 13px; transition: var(--transition); flex-shrink: 0; }
-.toggle-switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; background: white; border-radius: 50%; transition: var(--transition); box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
-.toggle-label input:checked + .toggle-switch { background: var(--primary); }
-.toggle-label input:checked + .toggle-switch::after { transform: translateX(22px); }
-.price-results { border: 2px solid var(--primary-light); background: linear-gradient(135deg, #fff 0%, var(--primary-light) 100%); }
-.price-breakdown { display: flex; flex-direction: column; gap: 12px; }
-.price-empty { text-align: center; padding: 24px; color: var(--text-light); font-size: 0.9rem; }
-.price-line { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; font-size: 0.9rem; }
-.price-line.subtotal { border-top: 2px dashed var(--border); padding-top: 12px; margin-top: 4px; }
-.price-line-label { color: var(--text-light); }
-.price-line-value { font-weight: 600; color: var(--text); }
-.price-total { display: flex; justify-content: space-between; align-items: center; padding: 16px; background: var(--primary); color: white; border-radius: var(--radius); margin-top: 8px; animation: pulse 2s ease-in-out infinite; }
-.price-total-label { font-size: 1rem; font-weight: 600; }
-.price-total-value { font-size: 1.5rem; font-weight: 800; }
-.price-total-currency { font-size: 0.85rem; font-weight: 500; opacity: 0.9; }
-.price-tip { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: rgba(42, 157, 143, 0.1); border-radius: var(--radius-sm); font-size: 0.8rem; color: var(--success); margin-top: 8px; }
-.price-range { text-align: center; padding: 8px; font-size: 0.82rem; color: var(--text-light); background: var(--bg); border-radius: var(--radius-sm); }
-.provider-comparison { border: 2px solid #e0e7ff; background: linear-gradient(135deg, #fff 0%, #e0e7ff 100%); }
-.provider-grid { display: flex; flex-direction: column; gap: 10px; }
-.provider-card { display: flex; align-items: center; justify-content: space-between; padding: 16px; border: 2px solid var(--border); border-radius: var(--radius); background: white; transition: var(--transition); }
-.provider-card.cheapest { border-color: var(--success); background: rgba(42, 157, 143, 0.05); }
-.provider-left { display: flex; align-items: center; gap: 12px; }
-.provider-logo { width: 42px; height: 42px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 700; color: white; }
-.provider-info { display: flex; flex-direction: column; }
-.provider-name { font-weight: 700; font-size: 0.95rem; color: var(--secondary); }
-.provider-eta { font-size: 0.78rem; color: var(--text-light); }
-.provider-right { display: flex; flex-direction: column; align-items: flex-end; }
-.provider-price { font-size: 1.15rem; font-weight: 800; color: var(--secondary); }
-.provider-badge { font-size: 0.7rem; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: var(--success); color: white; }
-.app-footer { text-align: center; padding: 24px 16px; color: var(--text-lighter); font-size: 0.8rem; }
-@keyframes fadeInUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
+}
+
+.price-total {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 480px) {
-    .app-container { padding: 0 10px; }
-    .card { padding: 18px 14px; }
-    .city-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    .city-card { padding: 10px 6px; }
-    .vehicle-grid { grid-template-columns: repeat(2, 1fr); }
-    #map { height: 240px; }
-    .logo h1 { font-size: 1.4rem; }
-    .price-total-value { font-size: 1.3rem; }
+    .app-container {
+        padding: 0 10px;
+    }
+
+    .card {
+        padding: 18px 14px;
+    }
+
+    .city-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .city-card {
+        padding: 10px 6px;
+    }
+
+    .vehicle-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    #map {
+        height: 240px;
+    }
+
+    .logo h1 {
+        font-size: 1.4rem;
+    }
+
+    .price-total-value {
+        font-size: 1.3rem;
+    }
 }
+
 @media (min-width: 481px) and (max-width: 768px) {
-    .city-grid { grid-template-columns: repeat(4, 1fr); }
-    .vehicle-grid { grid-template-columns: repeat(3, 1fr); }
+    .city-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .vehicle-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
 }
-</style>
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--text-lighter);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-light);
+}
+    </style>
 </head>
 <body>
     <div class="app-container">
+        <!-- Header -->
         <header class="app-header">
             <div class="logo">
                 <span class="logo-icon">🚖</span>
@@ -155,20 +810,39 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
             </div>
             <p class="tagline">Smart Ride Price Calculator for Morocco</p>
         </header>
+
+        <!-- Main Content -->
         <main class="main-content">
+            <!-- City Selection -->
             <section class="card city-selection">
-                <h2 class="card-title"><span class="step-badge">1</span> Select City</h2>
-                <div class="city-grid" id="cityGrid"></div>
+                <h2 class="card-title">
+                    <span class="step-badge">1</span>
+                    Select City
+                </h2>
+                <div class="city-grid" id="cityGrid">
+                    <!-- Cities populated by JS -->
+                </div>
             </section>
+
+            <!-- Route Selection -->
             <section class="card route-selection">
-                <h2 class="card-title"><span class="step-badge">2</span> Set Your Route</h2>
+                <h2 class="card-title">
+                    <span class="step-badge">2</span>
+                    Set Your Route
+                </h2>
                 <div class="route-inputs">
                     <div class="input-group">
-                        <label for="pickup"><span class="dot pickup-dot"></span> Pickup Location</label>
+                        <label for="pickup">
+                            <span class="dot pickup-dot"></span>
+                            Pickup Location
+                        </label>
                         <div class="input-wrapper">
                             <input type="text" id="pickup" placeholder="Enter pickup address or click map..." autocomplete="off">
                             <button class="locate-btn" id="locateBtn" title="Use my location">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="suggestions-list" id="pickupSuggestions"></div>
@@ -176,65 +850,1328 @@ body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans
                     <div class="route-connector">
                         <div class="connector-line"></div>
                         <button class="swap-btn" id="swapBtn" title="Swap locations">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/></svg>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+                            </svg>
                         </button>
                     </div>
                     <div class="input-group">
-                        <label for="dropoff"><span class="dot dropoff-dot"></span> Drop-off Location</label>
+                        <label for="dropoff">
+                            <span class="dot dropoff-dot"></span>
+                            Drop-off Location
+                        </label>
                         <div class="input-wrapper">
                             <input type="text" id="dropoff" placeholder="Enter destination address or click map..." autocomplete="off">
                         </div>
                         <div class="suggestions-list" id="dropoffSuggestions"></div>
                     </div>
                 </div>
+                <!-- Map -->
                 <div class="map-container">
                     <div id="map"></div>
                     <div class="map-hint" id="mapHint">Click on the map to set pickup and drop-off points</div>
                 </div>
                 <div class="route-info" id="routeInfo">
-                    <div class="info-item"><span class="info-label">Distance</span><span class="info-value" id="distanceValue">--</span></div>
-                    <div class="info-item"><span class="info-label">Est. Duration</span><span class="info-value" id="durationValue">--</span></div>
+                    <div class="info-item">
+                        <span class="info-label">Distance</span>
+                        <span class="info-value" id="distanceValue">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Est. Duration</span>
+                        <span class="info-value" id="durationValue">--</span>
+                    </div>
                 </div>
             </section>
+
+            <!-- Vehicle Selection -->
             <section class="card vehicle-selection">
-                <h2 class="card-title"><span class="step-badge">3</span> Choose Vehicle</h2>
-                <div class="vehicle-grid" id="vehicleGrid"></div>
+                <h2 class="card-title">
+                    <span class="step-badge">3</span>
+                    Choose Vehicle
+                </h2>
+                <div class="vehicle-grid" id="vehicleGrid">
+                    <!-- Vehicles populated by JS -->
+                </div>
             </section>
+
+            <!-- Options -->
             <section class="card options-section">
-                <h2 class="card-title"><span class="step-badge">4</span> Ride Options</h2>
+                <h2 class="card-title">
+                    <span class="step-badge">4</span>
+                    Ride Options
+                </h2>
                 <div class="options-grid">
-                    <div class="option-item"><label class="toggle-label"><span class="option-text"><span class="option-name">Night Ride</span><span class="option-desc">Between 10 PM - 6 AM (+30%)</span></span><input type="checkbox" id="nightRide"><span class="toggle-switch"></span></label></div>
-                    <div class="option-item"><label class="toggle-label"><span class="option-text"><span class="option-name">Peak Hours</span><span class="option-desc">Rush hour surcharge (+20%)</span></span><input type="checkbox" id="peakHours"><span class="toggle-switch"></span></label></div>
-                    <div class="option-item"><label class="toggle-label"><span class="option-text"><span class="option-name">AC Required</span><span class="option-desc">Air conditioning (+5 MAD)</span></span><input type="checkbox" id="acRequired"><span class="toggle-switch"></span></label></div>
-                    <div class="option-item"><label class="toggle-label"><span class="option-text"><span class="option-name">Luggage</span><span class="option-desc">Extra luggage (+10 MAD)</span></span><input type="checkbox" id="luggage"><span class="toggle-switch"></span></label></div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Night Ride</span>
+                                <span class="option-desc">Between 10 PM - 6 AM (+30%)</span>
+                            </span>
+                            <input type="checkbox" id="nightRide">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Peak Hours</span>
+                                <span class="option-desc">Rush hour surcharge (+20%)</span>
+                            </span>
+                            <input type="checkbox" id="peakHours">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">AC Required</span>
+                                <span class="option-desc">Air conditioning (+5 MAD)</span>
+                            </span>
+                            <input type="checkbox" id="acRequired">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Luggage</span>
+                                <span class="option-desc">Extra luggage (+10 MAD)</span>
+                            </span>
+                            <input type="checkbox" id="luggage">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
                 </div>
             </section>
+
+            <!-- Price Results -->
             <section class="card price-results" id="priceResults">
-                <h2 class="card-title"><span class="step-badge">★</span> Estimated Prices</h2>
+                <h2 class="card-title">
+                    <span class="step-badge">★</span>
+                    Estimated Prices
+                </h2>
                 <div class="price-breakdown" id="priceBreakdown">
-                    <div class="price-empty"><p>Select a city, set your route, and choose a vehicle to see price estimates</p></div>
+                    <div class="price-empty">
+                        <p>Select a city, set your route, and choose a vehicle to see price estimates</p>
+                    </div>
                 </div>
             </section>
+
+            <!-- Provider Comparison -->
             <section class="card provider-comparison" id="providerSection" style="display:none;">
-                <h2 class="card-title"><span class="step-badge">★</span> Provider Comparison</h2>
-                <div class="provider-grid" id="providerGrid"></div>
+                <h2 class="card-title">
+                    <span class="step-badge">★</span>
+                    Provider Comparison
+                </h2>
+                <div class="provider-grid" id="providerGrid">
+                    <!-- Providers populated by JS -->
+                </div>
             </section>
         </main>
-        <footer class="app-footer"><p>Prices are estimates and may vary. Yallah Lbnat &copy; 2026</p></footer>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Prices are estimates and may vary. Yallah Lbnat &copy; 2026</p>
+        </footer>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-<script>
-const CITIES={casablanca:{name:'Casablanca',nameAr:'الدار البيضاء',emoji:'🏙️',center:[33.5731,-7.5898],zoom:12,multiplier:1.0,landmarks:[{name:'Hassan II Mosque',coords:[33.6086,-7.6322]},{name:'Casa Voyageurs Station',coords:[33.5886,-7.5911]},{name:'Mohammed V Airport',coords:[33.3675,-7.5898]},{name:'Morocco Mall',coords:[33.5486,-7.6572]},{name:'Maarif',coords:[33.5761,-7.6319]},{name:'Ain Diab',coords:[33.5920,-7.6694]},{name:'Anfa Place',coords:[33.5888,-7.6522]},{name:'Derb Sultan',coords:[33.5788,-7.6050]},{name:'Casa Port Station',coords:[33.6020,-7.6170]},{name:'Twin Center',coords:[33.5797,-7.6340]},{name:'Habous Quarter',coords:[33.5770,-7.5960]},{name:'Central Market',coords:[33.5930,-7.6150]}]},rabat:{name:'Rabat',nameAr:'الرباط',emoji:'🏛️',center:[34.0209,-6.8416],zoom:13,multiplier:0.95,landmarks:[{name:'Hassan Tower',coords:[34.0245,-6.8235]},{name:'Rabat Ville Station',coords:[34.0180,-6.8370]},{name:'Rabat Agdal Station',coords:[33.9920,-6.8490]},{name:'Chellah',coords:[34.0096,-6.8174]},{name:'Kasbah of Udayas',coords:[34.0320,-6.8340]},{name:'Rabat Zoo',coords:[33.9580,-6.8260]},{name:'Souissi',coords:[33.9800,-6.8530]},{name:'Hay Riad',coords:[33.9620,-6.8710]},{name:'Mega Mall',coords:[33.9710,-6.8650]},{name:'Medina Rabat',coords:[34.0260,-6.8350]}]},marrakech:{name:'Marrakech',nameAr:'مراكش',emoji:'🕌',center:[31.6295,-7.9811],zoom:13,multiplier:1.1,landmarks:[{name:'Jemaa el-Fnaa',coords:[31.6258,-7.9891]},{name:'Marrakech Station',coords:[31.6341,-8.0150]},{name:'Menara Airport',coords:[31.6069,-8.0363]},{name:'Majorelle Garden',coords:[31.6417,-8.0032]},{name:'Koutoubia Mosque',coords:[31.6239,-7.9938]},{name:'Bahia Palace',coords:[31.6216,-7.9830]},{name:'Gueliz',coords:[31.6370,-8.0080]},{name:'Menara Gardens',coords:[31.6180,-8.0220]},{name:'Hivernage',coords:[31.6270,-8.0100]},{name:'Palmeraie',coords:[31.6650,-7.9650]}]},fes:{name:'Fes',nameAr:'فاس',emoji:'🏺',center:[34.0331,-5.0003],zoom:13,multiplier:0.85,landmarks:[{name:'Bab Boujloud',coords:[34.0627,-4.9818]},{name:'Fes Station',coords:[34.0390,-5.0150]},{name:'Fes Saiss Airport',coords:[33.9273,-4.9779]},{name:'Al Quaraouiyine',coords:[34.0639,-4.9734]},{name:'Borj Nord',coords:[34.0670,-4.9860]},{name:'Royal Palace Fes',coords:[34.0570,-4.9760]},{name:'Ville Nouvelle',coords:[34.0350,-5.0020]},{name:'Fes Medina',coords:[34.0610,-4.9780]},{name:'Merenides Tombs',coords:[34.0700,-4.9780]},{name:'Borj Sud',coords:[34.0580,-4.9850]}]},tangier:{name:'Tangier',nameAr:'طنجة',emoji:'⛴️',center:[35.7595,-5.8340],zoom:13,multiplier:0.9,landmarks:[{name:'Tangier Port',coords:[35.7870,-5.8060]},{name:'Tangier Ville Station',coords:[35.7690,-5.8100]},{name:'Ibn Battouta Airport',coords:[35.7269,-5.9168]},{name:'Cape Spartel',coords:[35.7912,-5.9208]},{name:'Grand Socco',coords:[35.7831,-5.8124]},{name:'Tangier Marina Bay',coords:[35.7880,-5.7980]},{name:'Kasbah Museum',coords:[35.7880,-5.8100]},{name:'Tanger City Mall',coords:[35.7590,-5.8230]},{name:'Malabata',coords:[35.7930,-5.7730]},{name:'Médina Tangier',coords:[35.7850,-5.8110]}]},agadir:{name:'Agadir',nameAr:'أكادير',emoji:'🏖️',center:[30.4278,-9.5981],zoom:13,multiplier:0.88,landmarks:[{name:'Agadir Beach',coords:[30.4230,-9.6130]},{name:'Agadir Al Massira Airport',coords:[30.3253,-9.4131]},{name:'Souk El Had',coords:[30.4290,-9.5950]},{name:'Agadir Oufella',coords:[30.4370,-9.6210]},{name:'Marina Agadir',coords:[30.4130,-9.6230]},{name:'Crocoparc',coords:[30.3720,-9.5350]},{name:'Amazigh Heritage Museum',coords:[30.4270,-9.5970]},{name:'Nouveau Talborjt',coords:[30.4230,-9.5980]}]},meknes:{name:'Meknes',nameAr:'مكناس',emoji:'🏰',center:[33.8935,-5.5473],zoom:13,multiplier:0.8,landmarks:[{name:'Bab Mansour',coords:[33.8932,-5.5632]},{name:'Meknes Station',coords:[33.8870,-5.5430]},{name:'Royal Palace Meknes',coords:[33.8880,-5.5670]},{name:'Heri es-Souani',coords:[33.8820,-5.5590]},{name:'Lahdim Square',coords:[33.8940,-5.5630]},{name:'Mausoleum Moulay Ismail',coords:[33.8890,-5.5650]},{name:'Medina Meknes',coords:[33.8930,-5.5620]},{name:'Ville Nouvelle Meknes',coords:[33.8900,-5.5400]}]},oujda:{name:'Oujda',nameAr:'وجدة',emoji:'🌄',center:[34.6814,-1.9086],zoom:13,multiplier:0.78,landmarks:[{name:'Oujda Station',coords:[34.6840,-1.9100]},{name:'Oujda Angads Airport',coords:[34.7872,-1.9239]},{name:'Parc Lalla Aicha',coords:[34.6830,-1.9090]},{name:'Bab Sidi Abdelwahab',coords:[34.6850,-1.9120]},{name:'Medina Oujda',coords:[34.6860,-1.9100]},{name:'University of Oujda',coords:[34.6560,-1.9400]}]},kenitra:{name:'Kenitra',nameAr:'القنيطرة',emoji:'🌊',center:[34.2610,-6.5802],zoom:13,multiplier:0.82,landmarks:[{name:'Kenitra Station',coords:[34.2640,-6.5760]},{name:'Mehdia Beach',coords:[34.2540,-6.6700]},{name:'Kenitra Center',coords:[34.2610,-6.5800]},{name:'La Mamora Forest',coords:[34.2800,-6.5600]}]},tetouan:{name:'Tetouan',nameAr:'تطوان',emoji:'🏔️',center:[35.5785,-5.3684],zoom:13,multiplier:0.83,landmarks:[{name:'Tetouan Medina',coords:[35.5710,-5.3680]},{name:'Place Hassan II',coords:[35.5740,-5.3660]},{name:'Royal Palace Tetouan',coords:[35.5700,-5.3690]},{name:'Martil Beach',coords:[35.6170,-5.2740]},{name:'Tamuda Bay',coords:[35.6430,-5.2540]}]}};
-const VEHICLES={petit_taxi:{name:'Petit Taxi',icon:'🚕',capacity:'1-3 passengers',baseFare:7,perKm:3.5,perMinute:0.5,minFare:7,description:'City taxi, short distances'},grand_taxi:{name:'Grand Taxi',icon:'🚖',capacity:'1-6 passengers',baseFare:10,perKm:2.5,perMinute:0.3,minFare:10,description:'Shared or private, longer routes'},indriver:{name:'InDriver',icon:'📱',capacity:'1-4 passengers',baseFare:5,perKm:4.0,perMinute:0.6,minFare:10,description:'Negotiate your price'},careem:{name:'Careem',icon:'🟢',capacity:'1-4 passengers',baseFare:8,perKm:4.5,perMinute:0.7,minFare:12,description:'Premium app-based rides'},heetch:{name:'Heetch',icon:'🟣',capacity:'1-4 passengers',baseFare:6,perKm:3.8,perMinute:0.5,minFare:10,description:'Affordable app-based rides'},premium:{name:'Premium',icon:'🚘',capacity:'1-4 passengers',baseFare:15,perKm:6.0,perMinute:1.0,minFare:25,description:'Luxury vehicles'}};
-const PROVIDERS={indriver:{name:'InDriver',color:'#2ECC40',available:['casablanca','rabat','marrakech','fes','tangier','agadir','meknes','oujda','kenitra','tetouan'],priceMultiplier:0.92,etaRange:[3,8]},careem:{name:'Careem',color:'#00B140',available:['casablanca','rabat','marrakech','tangier','agadir'],priceMultiplier:1.05,etaRange:[4,10]},heetch:{name:'Heetch',color:'#7B2D8E',available:['casablanca','rabat','marrakech','fes','tangier','agadir'],priceMultiplier:0.95,etaRange:[3,7]},yango:{name:'Yango',color:'#FF4444',available:['casablanca','rabat'],priceMultiplier:0.98,etaRange:[5,12]},petit_taxi:{name:'Petit Taxi',color:'#E63946',available:['casablanca','rabat','marrakech','fes','tangier','agadir','meknes','oujda','kenitra','tetouan'],priceMultiplier:1.0,etaRange:[1,5]}};
+    <script>
+/**
+ * Morocco Cities Data
+ * Includes coordinates, landmarks, and city-specific pricing multipliers
+ */
+const CITIES = {
+    casablanca: {
+        name: 'Casablanca',
+        nameAr: '\u0627\u0644\u062f\u0627\u0631 \u0627\u0644\u0628\u064a\u0636\u0627\u0621',
+        emoji: '\ud83c\udfd9\ufe0f',
+        center: [33.5731, -7.5898],
+        zoom: 12,
+        multiplier: 1.0,
+        landmarks: [
+            { name: 'Hassan II Mosque', coords: [33.6086, -7.6322] },
+            { name: 'Casa Voyageurs Station', coords: [33.5886, -7.5911] },
+            { name: 'Mohammed V Airport', coords: [33.3675, -7.5898] },
+            { name: 'Morocco Mall', coords: [33.5486, -7.6572] },
+            { name: 'Maarif', coords: [33.5761, -7.6319] },
+            { name: 'Ain Diab', coords: [33.5920, -7.6694] },
+            { name: 'Anfa Place', coords: [33.5888, -7.6522] },
+            { name: 'Derb Sultan', coords: [33.5788, -7.6050] },
+            { name: 'Casa Port Station', coords: [33.6020, -7.6170] },
+            { name: 'Twin Center', coords: [33.5797, -7.6340] },
+            { name: 'Habous Quarter', coords: [33.5770, -7.5960] },
+            { name: 'Central Market', coords: [33.5930, -7.6150] }
+        ]
+    },
+    rabat: {
+        name: 'Rabat',
+        nameAr: '\u0627\u0644\u0631\u0628\u0627\u0637',
+        emoji: '\ud83c\udfdb\ufe0f',
+        center: [34.0209, -6.8416],
+        zoom: 13,
+        multiplier: 0.95,
+        landmarks: [
+            { name: 'Hassan Tower', coords: [34.0245, -6.8235] },
+            { name: 'Rabat Ville Station', coords: [34.0180, -6.8370] },
+            { name: 'Rabat Agdal Station', coords: [33.9920, -6.8490] },
+            { name: 'Chellah', coords: [34.0096, -6.8174] },
+            { name: 'Kasbah of Udayas', coords: [34.0320, -6.8340] },
+            { name: 'Rabat Zoo', coords: [33.9580, -6.8260] },
+            { name: 'Souissi', coords: [33.9800, -6.8530] },
+            { name: 'Hay Riad', coords: [33.9620, -6.8710] },
+            { name: 'Mega Mall', coords: [33.9710, -6.8650] },
+            { name: 'Medina Rabat', coords: [34.0260, -6.8350] }
+        ]
+    },
+    marrakech: {
+        name: 'Marrakech',
+        nameAr: '\u0645\u0631\u0627\u0643\u0634',
+        emoji: '\ud83d\udd4c',
+        center: [31.6295, -7.9811],
+        zoom: 13,
+        multiplier: 1.1,
+        landmarks: [
+            { name: 'Jemaa el-Fnaa', coords: [31.6258, -7.9891] },
+            { name: 'Marrakech Station', coords: [31.6341, -8.0150] },
+            { name: 'Menara Airport', coords: [31.6069, -8.0363] },
+            { name: 'Majorelle Garden', coords: [31.6417, -8.0032] },
+            { name: 'Koutoubia Mosque', coords: [31.6239, -7.9938] },
+            { name: 'Bahia Palace', coords: [31.6216, -7.9830] },
+            { name: 'Gueliz', coords: [31.6370, -8.0080] },
+            { name: 'Menara Gardens', coords: [31.6180, -8.0220] },
+            { name: 'Hivernage', coords: [31.6270, -8.0100] },
+            { name: 'Palmeraie', coords: [31.6650, -7.9650] }
+        ]
+    },
+    fes: {
+        name: 'Fes',
+        nameAr: '\u0641\u0627\u0633',
+        emoji: '\ud83c\udffa',
+        center: [34.0331, -5.0003],
+        zoom: 13,
+        multiplier: 0.85,
+        landmarks: [
+            { name: 'Bab Boujloud', coords: [34.0627, -4.9818] },
+            { name: 'Fes Station', coords: [34.0390, -5.0150] },
+            { name: 'Fes Saiss Airport', coords: [33.9273, -4.9779] },
+            { name: 'Al Quaraouiyine', coords: [34.0639, -4.9734] },
+            { name: 'Borj Nord', coords: [34.0670, -4.9860] },
+            { name: 'Royal Palace Fes', coords: [34.0570, -4.9760] },
+            { name: 'Ville Nouvelle', coords: [34.0350, -5.0020] },
+            { name: 'Fes Medina', coords: [34.0610, -4.9780] },
+            { name: 'Merenides Tombs', coords: [34.0700, -4.9780] },
+            { name: 'Borj Sud', coords: [34.0580, -4.9850] }
+        ]
+    },
+    tangier: {
+        name: 'Tangier',
+        nameAr: '\u0637\u0646\u062c\u0629',
+        emoji: '\u26f4\ufe0f',
+        center: [35.7595, -5.8340],
+        zoom: 13,
+        multiplier: 0.9,
+        landmarks: [
+            { name: 'Tangier Port', coords: [35.7870, -5.8060] },
+            { name: 'Tangier Ville Station', coords: [35.7690, -5.8100] },
+            { name: 'Ibn Battouta Airport', coords: [35.7269, -5.9168] },
+            { name: 'Cape Spartel', coords: [35.7912, -5.9208] },
+            { name: 'Grand Socco', coords: [35.7831, -5.8124] },
+            { name: 'Tangier Marina Bay', coords: [35.7880, -5.7980] },
+            { name: 'Kasbah Museum', coords: [35.7880, -5.8100] },
+            { name: 'Tanger City Mall', coords: [35.7590, -5.8230] },
+            { name: 'Malabata', coords: [35.7930, -5.7730] },
+            { name: 'M\u00e9dina Tangier', coords: [35.7850, -5.8110] }
+        ]
+    },
+    agadir: {
+        name: 'Agadir',
+        nameAr: '\u0623\u0643\u0627\u062f\u064a\u0631',
+        emoji: '\ud83c\udfd6\ufe0f',
+        center: [30.4278, -9.5981],
+        zoom: 13,
+        multiplier: 0.88,
+        landmarks: [
+            { name: 'Agadir Beach', coords: [30.4230, -9.6130] },
+            { name: 'Agadir Al Massira Airport', coords: [30.3253, -9.4131] },
+            { name: 'Souk El Had', coords: [30.4290, -9.5950] },
+            { name: 'Agadir Oufella', coords: [30.4370, -9.6210] },
+            { name: 'Marina Agadir', coords: [30.4130, -9.6230] },
+            { name: 'Crocoparc', coords: [30.3720, -9.5350] },
+            { name: 'Amazigh Heritage Museum', coords: [30.4270, -9.5970] },
+            { name: 'Nouveau Talborjt', coords: [30.4230, -9.5980] }
+        ]
+    },
+    meknes: {
+        name: 'Meknes',
+        nameAr: '\u0645\u0643\u0646\u0627\u0633',
+        emoji: '\ud83c\udff0',
+        center: [33.8935, -5.5473],
+        zoom: 13,
+        multiplier: 0.8,
+        landmarks: [
+            { name: 'Bab Mansour', coords: [33.8932, -5.5632] },
+            { name: 'Meknes Station', coords: [33.8870, -5.5430] },
+            { name: 'Royal Palace Meknes', coords: [33.8880, -5.5670] },
+            { name: 'Heri es-Souani', coords: [33.8820, -5.5590] },
+            { name: 'Lahdim Square', coords: [33.8940, -5.5630] },
+            { name: 'Mausoleum Moulay Ismail', coords: [33.8890, -5.5650] },
+            { name: 'Medina Meknes', coords: [33.8930, -5.5620] },
+            { name: 'Ville Nouvelle Meknes', coords: [33.8900, -5.5400] }
+        ]
+    },
+    oujda: {
+        name: 'Oujda',
+        nameAr: '\u0648\u062c\u062f\u0629',
+        emoji: '\ud83c\udf04',
+        center: [34.6814, -1.9086],
+        zoom: 13,
+        multiplier: 0.78,
+        landmarks: [
+            { name: 'Oujda Station', coords: [34.6840, -1.9100] },
+            { name: 'Oujda Angads Airport', coords: [34.7872, -1.9239] },
+            { name: 'Parc Lalla Aicha', coords: [34.6830, -1.9090] },
+            { name: 'Bab Sidi Abdelwahab', coords: [34.6850, -1.9120] },
+            { name: 'Medina Oujda', coords: [34.6860, -1.9100] },
+            { name: 'University of Oujda', coords: [34.6560, -1.9400] }
+        ]
+    },
+    kenitra: {
+        name: 'Kenitra',
+        nameAr: '\u0627\u0644\u0642\u0646\u064a\u0637\u0631\u0629',
+        emoji: '\ud83c\udf0a',
+        center: [34.2610, -6.5802],
+        zoom: 13,
+        multiplier: 0.82,
+        landmarks: [
+            { name: 'Kenitra Station', coords: [34.2640, -6.5760] },
+            { name: 'Mehdia Beach', coords: [34.2540, -6.6700] },
+            { name: 'Kenitra Center', coords: [34.2610, -6.5800] },
+            { name: 'La Mamora Forest', coords: [34.2800, -6.5600] }
+        ]
+    },
+    tetouan: {
+        name: 'Tetouan',
+        nameAr: '\u062a\u0637\u0648\u0627\u0646',
+        emoji: '\ud83c\udfd4\ufe0f',
+        center: [35.5785, -5.3684],
+        zoom: 13,
+        multiplier: 0.83,
+        landmarks: [
+            { name: 'Tetouan Medina', coords: [35.5710, -5.3680] },
+            { name: 'Place Hassan II', coords: [35.5740, -5.3660] },
+            { name: 'Royal Palace Tetouan', coords: [35.5700, -5.3690] },
+            { name: 'Martil Beach', coords: [35.6170, -5.2740] },
+            { name: 'Tamuda Bay', coords: [35.6430, -5.2540] }
+        ]
+    }
+};
 
-const PricingEngine={calculate(params){const{city,vehicle,distanceKm,durationMin,options}=params;if(!city||!vehicle||!distanceKm)return null;const cityData=CITIES[city];const vehicleData=VEHICLES[vehicle];if(!cityData||!vehicleData)return null;let baseFare=vehicleData.baseFare;let distanceCost=distanceKm*vehicleData.perKm;let timeCost=(durationMin||distanceKm*3)*vehicleData.perMinute;const cityMultiplier=cityData.multiplier;let subtotal=(baseFare+distanceCost+timeCost)*cityMultiplier;let nightSurcharge=0,peakSurcharge=0,acCharge=0,luggageCharge=0;if(options.nightRide)nightSurcharge=subtotal*0.30;if(options.peakHours)peakSurcharge=subtotal*0.20;if(options.acRequired)acCharge=5;if(options.luggage)luggageCharge=10;let total=subtotal+nightSurcharge+peakSurcharge+acCharge+luggageCharge;total=Math.max(total,vehicleData.minFare);total=Math.round(total*2)/2;return{baseFare:this.round(baseFare),distanceCost:this.round(distanceCost),timeCost:this.round(timeCost),cityMultiplier,subtotal:this.round(subtotal),nightSurcharge:this.round(nightSurcharge),peakSurcharge:this.round(peakSurcharge),acCharge,luggageCharge,total:this.round(total),lowEstimate:this.round(total*0.85),highEstimate:this.round(total*1.2),currency:'MAD'}},getProviderPrices(city,distanceKm,durationMin,options){const results=[];for(const[key,provider]of Object.entries(PROVIDERS)){if(!provider.available.includes(city))continue;let vehicleType='petit_taxi';if(key==='indriver')vehicleType='indriver';else if(key==='careem')vehicleType='careem';else if(key==='heetch')vehicleType='heetch';const basePrice=this.calculate({city,vehicle:vehicleType,distanceKm,durationMin,options});if(!basePrice)continue;const adjustedTotal=this.round(basePrice.total*provider.priceMultiplier);const eta=Math.floor(Math.random()*(provider.etaRange[1]-provider.etaRange[0]+1))+provider.etaRange[0];results.push({key,name:provider.name,color:provider.color,price:adjustedTotal,eta,currency:'MAD'})}results.sort((a,b)=>a.price-b.price);if(results.length>0)results[0].cheapest=true;return results},estimateDuration(distanceKm){return Math.round((distanceKm/25)*60)},round(value){return Math.round(value*10)/10},getTip(total,vehicle){if(vehicle==='petit_taxi')return'Always insist the driver uses the meter (compteur). It is your legal right in Morocco.';if(vehicle==='grand_taxi'){const perSeat=Math.round(total/6);return`For shared Grand Taxi, expect ~${perSeat} MAD per seat. Private hire costs the full amount.`}if(vehicle==='indriver'){const suggest=Math.round(total*0.85);return`Start your offer around ${suggest} MAD and negotiate. Most drivers accept within 10-15% of the estimate.`}return'Compare prices across apps before booking for the best deal.'}};
+/**
+ * Vehicle types with base pricing
+ */
+const VEHICLES = {
+    petit_taxi: {
+        name: 'Petit Taxi',
+        icon: '\ud83d\ude95',
+        capacity: '1-3 passengers',
+        baseFare: 7,      // MAD
+        perKm: 3.5,       // MAD per km
+        perMinute: 0.5,   // MAD per minute waiting
+        minFare: 7,
+        description: 'City taxi, short distances'
+    },
+    grand_taxi: {
+        name: 'Grand Taxi',
+        icon: '\ud83d\ude96',
+        capacity: '1-6 passengers',
+        baseFare: 10,
+        perKm: 2.5,
+        perMinute: 0.3,
+        minFare: 10,
+        description: 'Shared or private, longer routes'
+    },
+    indriver: {
+        name: 'InDriver',
+        icon: '\ud83d\udcf1',
+        capacity: '1-4 passengers',
+        baseFare: 5,
+        perKm: 4.0,
+        perMinute: 0.6,
+        minFare: 10,
+        description: 'Negotiate your price'
+    },
+    careem: {
+        name: 'Careem',
+        icon: '\ud83d\udfe2',
+        capacity: '1-4 passengers',
+        baseFare: 8,
+        perKm: 4.5,
+        perMinute: 0.7,
+        minFare: 12,
+        description: 'Premium app-based rides'
+    },
+    heetch: {
+        name: 'Heetch',
+        icon: '\ud83d\udfe3',
+        capacity: '1-4 passengers',
+        baseFare: 6,
+        perKm: 3.8,
+        perMinute: 0.5,
+        minFare: 10,
+        description: 'Affordable app-based rides'
+    },
+    premium: {
+        name: 'Premium',
+        icon: '\ud83d\ude98',
+        capacity: '1-4 passengers',
+        baseFare: 15,
+        perKm: 6.0,
+        perMinute: 1.0,
+        minFare: 25,
+        description: 'Luxury vehicles'
+    }
+};
 
-const MapModule={map:null,pickupMarker:null,dropoffMarker:null,routeLine:null,clickMode:'pickup',landmarkMarkers:[],init(cityKey){const city=CITIES[cityKey];if(!city)return;if(this.map){this.map.remove();this.map=null}this.map=L.map('map',{zoomControl:true,attributionControl:true}).setView(city.center,city.zoom);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'&copy; OpenStreetMap contributors',maxZoom:18}).addTo(this.map);this.addLandmarks(cityKey);this.map.on('click',(e)=>this.onMapClick(e));this.pickupMarker=null;this.dropoffMarker=null;this.routeLine=null;this.clickMode='pickup';this.updateHint()},addLandmarks(cityKey){this.landmarkMarkers.forEach(m=>m.remove());this.landmarkMarkers=[];const city=CITIES[cityKey];if(!city)return;city.landmarks.forEach(lm=>{const marker=L.circleMarker(lm.coords,{radius:5,fillColor:'#457b9d',color:'#1d3557',weight:1,fillOpacity:0.6}).addTo(this.map);marker.bindTooltip(lm.name,{direction:'top',offset:[0,-8]});marker.on('click',(e)=>{L.DomEvent.stopPropagation(e);this.setPoint(lm.coords,lm.name)});this.landmarkMarkers.push(marker)})},onMapClick(e){this.setPoint([e.latlng.lat,e.latlng.lng],null)},setPoint(coords,name){const pickupIcon=L.divIcon({html:'<div style="background:#2a9d8f;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',iconSize:[16,16],iconAnchor:[8,8],className:''});const dropoffIcon=L.divIcon({html:'<div style="background:#e63946;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',iconSize:[16,16],iconAnchor:[8,8],className:''});if(this.clickMode==='pickup'){if(this.pickupMarker)this.pickupMarker.remove();this.pickupMarker=L.marker(coords,{icon:pickupIcon,draggable:true}).addTo(this.map).bindPopup(name?`<b>Pickup:</b> ${name}`:'<b>Pickup Point</b>');this.pickupMarker.on('dragend',()=>this.onMarkerDrag());document.getElementById('pickup').value=name||`${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;this.clickMode='dropoff'}else{if(this.dropoffMarker)this.dropoffMarker.remove();this.dropoffMarker=L.marker(coords,{icon:dropoffIcon,draggable:true}).addTo(this.map).bindPopup(name?`<b>Drop-off:</b> ${name}`:'<b>Drop-off Point</b>');this.dropoffMarker.on('dragend',()=>this.onMarkerDrag());document.getElementById('dropoff').value=name||`${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;this.clickMode='pickup'}this.updateHint();this.drawRoute()},onMarkerDrag(){if(this.pickupMarker){const pos=this.pickupMarker.getLatLng();document.getElementById('pickup').value=`${pos.lat.toFixed(4)}, ${pos.lng.toFixed(4)}`}if(this.dropoffMarker){const pos=this.dropoffMarker.getLatLng();document.getElementById('dropoff').value=`${pos.lat.toFixed(4)}, ${pos.lng.toFixed(4)}`}this.drawRoute()},drawRoute(){if(this.routeLine){this.routeLine.remove();this.routeLine=null}if(!this.pickupMarker||!this.dropoffMarker)return;const p1=this.pickupMarker.getLatLng();const p2=this.dropoffMarker.getLatLng();this.routeLine=L.polyline([p1,p2],{color:'#e63946',weight:4,opacity:0.7,dashArray:'8, 8'}).addTo(this.map);this.map.fitBounds(L.latLngBounds([p1,p2]),{padding:[50,50]});const distance=this.calculateDistance(p1,p2);const duration=PricingEngine.estimateDuration(distance);document.dispatchEvent(new CustomEvent('route-calculated',{detail:{distance,duration}}))},calculateDistance(p1,p2){const R=6371;const dLat=(p2.lat-p1.lat)*Math.PI/180;const dLng=(p2.lng-p1.lng)*Math.PI/180;const a=Math.sin(dLat/2)*Math.sin(dLat/2)+Math.cos(p1.lat*Math.PI/180)*Math.cos(p2.lat*Math.PI/180)*Math.sin(dLng/2)*Math.sin(dLng/2);const c=2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));return Math.round(R*c*1.35*10)/10},swapPoints(){if(!this.pickupMarker||!this.dropoffMarker)return;const pPos=this.pickupMarker.getLatLng();const dPos=this.dropoffMarker.getLatLng();const pName=document.getElementById('pickup').value;const dName=document.getElementById('dropoff').value;this.pickupMarker.remove();this.dropoffMarker.remove();this.pickupMarker=null;this.dropoffMarker=null;this.clickMode='pickup';this.setPoint([dPos.lat,dPos.lng],dName);this.setPoint([pPos.lat,pPos.lng],pName)},setPickupFromLandmark(cityKey,landmarkName){const city=CITIES[cityKey];if(!city)return;const lm=city.landmarks.find(l=>l.name===landmarkName);if(!lm)return;this.clickMode='pickup';this.setPoint(lm.coords,lm.name)},setDropoffFromLandmark(cityKey,landmarkName){const city=CITIES[cityKey];if(!city)return;const lm=city.landmarks.find(l=>l.name===landmarkName);if(!lm)return;this.clickMode='dropoff';this.setPoint(lm.coords,lm.name)},searchLandmarks(cityKey,query){const city=CITIES[cityKey];if(!city||!query)return[];return city.landmarks.filter(lm=>lm.name.toLowerCase().includes(query.toLowerCase()))},updateHint(){const hint=document.getElementById('mapHint');if(!hint)return;if(!this.pickupMarker){hint.textContent='Click on the map to set your pickup point';hint.style.opacity='1'}else if(!this.dropoffMarker){hint.textContent='Now click to set your drop-off point';hint.style.opacity='1'}else{hint.style.opacity='0'}},locateUser(){if(!navigator.geolocation){alert('Geolocation is not supported');return}navigator.geolocation.getCurrentPosition((position)=>{const coords=[position.coords.latitude,position.coords.longitude];this.clickMode='pickup';this.setPoint(coords,'My Location');this.map.setView(coords,15)},()=>{alert('Unable to retrieve your location')})}};
+/**
+ * Ride-hailing providers active in Morocco
+ */
+const PROVIDERS = {
+    indriver: {
+        name: 'InDriver',
+        color: '#2ECC40',
+        available: ['casablanca', 'rabat', 'marrakech', 'fes', 'tangier', 'agadir', 'meknes', 'oujda', 'kenitra', 'tetouan'],
+        priceMultiplier: 0.92,
+        etaRange: [3, 8]
+    },
+    careem: {
+        name: 'Careem',
+        color: '#00B140',
+        available: ['casablanca', 'rabat', 'marrakech', 'tangier', 'agadir'],
+        priceMultiplier: 1.05,
+        etaRange: [4, 10]
+    },
+    heetch: {
+        name: 'Heetch',
+        color: '#7B2D8E',
+        available: ['casablanca', 'rabat', 'marrakech', 'fes', 'tangier', 'agadir'],
+        priceMultiplier: 0.95,
+        etaRange: [3, 7]
+    },
+    yango: {
+        name: 'Yango',
+        color: '#FF4444',
+        available: ['casablanca', 'rabat'],
+        priceMultiplier: 0.98,
+        etaRange: [5, 12]
+    },
+    petit_taxi: {
+        name: 'Petit Taxi',
+        color: '#E63946',
+        available: ['casablanca', 'rabat', 'marrakech', 'fes', 'tangier', 'agadir', 'meknes', 'oujda', 'kenitra', 'tetouan'],
+        priceMultiplier: 1.0,
+        etaRange: [1, 5]
+    }
+};
+    </script>
+    <script>
+/**
+ * Pricing Engine for Ride-Hailing in Morocco
+ */
+const PricingEngine = {
+    /**
+     * Calculate the price for a ride
+     */
+    calculate(params) {
+        const { city, vehicle, distanceKm, durationMin, options } = params;
 
-const App={state:{selectedCity:null,selectedVehicle:null,distance:null,duration:null,options:{nightRide:false,peakHours:false,acRequired:false,luggage:false}},init(){this.renderCities();this.renderVehicles();this.bindEvents();this.autoDetectTimeOptions()},renderCities(){const grid=document.getElementById('cityGrid');grid.innerHTML='';for(const[key,city]of Object.entries(CITIES)){const card=document.createElement('div');card.className='city-card';card.dataset.city=key;card.innerHTML=`<span class="city-emoji">${city.emoji}</span><span class="city-name">${city.name}</span><span class="city-name-ar">${city.nameAr}</span>`;card.addEventListener('click',()=>this.selectCity(key));grid.appendChild(card)}},renderVehicles(){const grid=document.getElementById('vehicleGrid');grid.innerHTML='';for(const[key,vehicle]of Object.entries(VEHICLES)){const card=document.createElement('div');card.className='vehicle-card';card.dataset.vehicle=key;card.innerHTML=`<span class="vehicle-icon">${vehicle.icon}</span><span class="vehicle-name">${vehicle.name}</span><span class="vehicle-capacity">${vehicle.capacity}</span><span class="vehicle-base">${vehicle.baseFare} MAD base</span>`;card.addEventListener('click',()=>this.selectVehicle(key));grid.appendChild(card)}},bindEvents(){document.getElementById('swapBtn').addEventListener('click',()=>MapModule.swapPoints());document.getElementById('locateBtn').addEventListener('click',()=>MapModule.locateUser());['nightRide','peakHours','acRequired','luggage'].forEach(opt=>{document.getElementById(opt).addEventListener('change',(e)=>{this.state.options[opt]=e.target.checked;this.recalculate()})});document.addEventListener('route-calculated',(e)=>{this.state.distance=e.detail.distance;this.state.duration=e.detail.duration;this.updateRouteInfo();this.recalculate()});this.setupSuggestions('pickup','pickupSuggestions');this.setupSuggestions('dropoff','dropoffSuggestions')},setupSuggestions(inputId,suggestionsId){const input=document.getElementById(inputId);const suggestionsEl=document.getElementById(suggestionsId);input.addEventListener('input',()=>{if(!this.state.selectedCity)return;const query=input.value.trim();if(query.length<2){suggestionsEl.classList.remove('active');return}const results=MapModule.searchLandmarks(this.state.selectedCity,query);if(results.length===0){suggestionsEl.classList.remove('active');return}suggestionsEl.innerHTML='';results.forEach(lm=>{const item=document.createElement('div');item.className='suggestion-item';item.textContent=lm.name;item.addEventListener('click',()=>{input.value=lm.name;suggestionsEl.classList.remove('active');if(inputId==='pickup')MapModule.setPickupFromLandmark(this.state.selectedCity,lm.name);else MapModule.setDropoffFromLandmark(this.state.selectedCity,lm.name)});suggestionsEl.appendChild(item)});suggestionsEl.classList.add('active')});document.addEventListener('click',(e)=>{if(!e.target.closest('.input-group'))suggestionsEl.classList.remove('active')})},selectCity(cityKey){this.state.selectedCity=cityKey;this.state.distance=null;this.state.duration=null;document.querySelectorAll('.city-card').forEach(card=>card.classList.toggle('active',card.dataset.city===cityKey));document.getElementById('pickup').value='';document.getElementById('dropoff').value='';document.getElementById('distanceValue').textContent='--';document.getElementById('durationValue').textContent='--';MapModule.init(cityKey);this.recalculate();document.querySelector('.route-selection').scrollIntoView({behavior:'smooth',block:'nearest'})},selectVehicle(vehicleKey){this.state.selectedVehicle=vehicleKey;document.querySelectorAll('.vehicle-card').forEach(card=>card.classList.toggle('active',card.dataset.vehicle===vehicleKey));this.recalculate()},updateRouteInfo(){document.getElementById('distanceValue').textContent=this.state.distance?`${this.state.distance} km`:'--';document.getElementById('durationValue').textContent=this.state.duration?`${this.state.duration} min`:'--'},recalculate(){const breakdown=document.getElementById('priceBreakdown');const providerSection=document.getElementById('providerSection');if(!this.state.selectedCity||!this.state.selectedVehicle||!this.state.distance){breakdown.innerHTML='<div class="price-empty"><p>Select a city, set your route, and choose a vehicle to see price estimates</p></div>';providerSection.style.display='none';return}const result=PricingEngine.calculate({city:this.state.selectedCity,vehicle:this.state.selectedVehicle,distanceKm:this.state.distance,durationMin:this.state.duration,options:this.state.options});if(!result)return;let html='';html+=this.priceLineHTML('Base fare',`${result.baseFare} MAD`);html+=this.priceLineHTML(`Distance (${this.state.distance} km)`,`${result.distanceCost} MAD`);html+=this.priceLineHTML(`Time (~${this.state.duration} min)`,`${result.timeCost} MAD`);if(result.cityMultiplier!==1.0)html+=this.priceLineHTML(result.cityMultiplier>1?'City premium':'City discount',`x${result.cityMultiplier}`);html+=`<div class="price-line subtotal"><span class="price-line-label">Subtotal</span><span class="price-line-value">${result.subtotal} MAD</span></div>`;if(result.nightSurcharge>0)html+=this.priceLineHTML('Night surcharge (+30%)',`+${result.nightSurcharge} MAD`);if(result.peakSurcharge>0)html+=this.priceLineHTML('Peak hours (+20%)',`+${result.peakSurcharge} MAD`);if(result.acCharge>0)html+=this.priceLineHTML('Air conditioning',`+${result.acCharge} MAD`);if(result.luggageCharge>0)html+=this.priceLineHTML('Luggage',`+${result.luggageCharge} MAD`);html+=`<div class="price-total"><span class="price-total-label">Estimated Total</span><span class="price-total-value">${result.total} <span class="price-total-currency">MAD</span></span></div>`;html+=`<div class="price-range">Typical range: <strong>${result.lowEstimate} - ${result.highEstimate} MAD</strong></div>`;html+=`<div class="price-tip"><span>💡</span><span>${PricingEngine.getTip(result.total,this.state.selectedVehicle)}</span></div>`;breakdown.innerHTML=html;this.renderProviders();document.getElementById('priceResults').scrollIntoView({behavior:'smooth',block:'nearest'})},renderProviders(){const section=document.getElementById('providerSection');const grid=document.getElementById('providerGrid');if(!this.state.selectedCity||!this.state.distance){section.style.display='none';return}const providers=PricingEngine.getProviderPrices(this.state.selectedCity,this.state.distance,this.state.duration,this.state.options);if(providers.length===0){section.style.display='none';return}section.style.display='block';grid.innerHTML='';providers.forEach(p=>{const card=document.createElement('div');card.className=`provider-card${p.cheapest?' cheapest':''}`;card.innerHTML=`<div class="provider-left"><div class="provider-logo" style="background:${p.color};">${p.name.substring(0,2).toUpperCase()}</div><div class="provider-info"><span class="provider-name">${p.name}</span><span class="provider-eta">ETA: ~${p.eta} min</span></div></div><div class="provider-right"><span class="provider-price">${p.price} MAD</span>${p.cheapest?'<span class="provider-badge">Best Price</span>':''}</div>`;grid.appendChild(card)})},priceLineHTML(label,value){return`<div class="price-line"><span class="price-line-label">${label}</span><span class="price-line-value">${value}</span></div>`},autoDetectTimeOptions(){const hour=new Date().getHours();if(hour>=22||hour<6){document.getElementById('nightRide').checked=true;this.state.options.nightRide=true}if((hour>=7&&hour<=9)||(hour>=17&&hour<=19)){document.getElementById('peakHours').checked=true;this.state.options.peakHours=true}}};
-document.addEventListener('DOMContentLoaded',()=>App.init());
-</script>
+        if (!city || !vehicle || !distanceKm) return null;
+
+        const cityData = CITIES[city];
+        const vehicleData = VEHICLES[vehicle];
+        if (!cityData || !vehicleData) return null;
+
+        // Base calculation
+        let baseFare = vehicleData.baseFare;
+        let distanceCost = distanceKm * vehicleData.perKm;
+        let timeCost = (durationMin || distanceKm * 3) * vehicleData.perMinute;
+
+        // City multiplier (some cities are cheaper/more expensive)
+        const cityMultiplier = cityData.multiplier;
+
+        // Subtotal before extras
+        let subtotal = (baseFare + distanceCost + timeCost) * cityMultiplier;
+
+        // Options
+        let nightSurcharge = 0;
+        let peakSurcharge = 0;
+        let acCharge = 0;
+        let luggageCharge = 0;
+
+        if (options.nightRide) {
+            nightSurcharge = subtotal * 0.30;
+        }
+
+        if (options.peakHours) {
+            peakSurcharge = subtotal * 0.20;
+        }
+
+        if (options.acRequired) {
+            acCharge = 5;
+        }
+
+        if (options.luggage) {
+            luggageCharge = 10;
+        }
+
+        let total = subtotal + nightSurcharge + peakSurcharge + acCharge + luggageCharge;
+
+        // Apply minimum fare
+        total = Math.max(total, vehicleData.minFare);
+
+        // Round to nearest 0.5 MAD
+        total = Math.round(total * 2) / 2;
+
+        return {
+            baseFare: this.round(baseFare),
+            distanceCost: this.round(distanceCost),
+            timeCost: this.round(timeCost),
+            cityMultiplier,
+            subtotal: this.round(subtotal),
+            nightSurcharge: this.round(nightSurcharge),
+            peakSurcharge: this.round(peakSurcharge),
+            acCharge,
+            luggageCharge,
+            total: this.round(total),
+            lowEstimate: this.round(total * 0.85),
+            highEstimate: this.round(total * 1.2),
+            currency: 'MAD'
+        };
+    },
+
+    /**
+     * Calculate prices for all available providers in a city
+     */
+    getProviderPrices(city, distanceKm, durationMin, options) {
+        const results = [];
+
+        for (const [key, provider] of Object.entries(PROVIDERS)) {
+            if (!provider.available.includes(city)) continue;
+
+            // Use the base vehicle type for the provider
+            let vehicleType = 'petit_taxi';
+            if (key === 'indriver') vehicleType = 'indriver';
+            else if (key === 'careem') vehicleType = 'careem';
+            else if (key === 'heetch') vehicleType = 'heetch';
+
+            const basePrice = this.calculate({
+                city,
+                vehicle: vehicleType,
+                distanceKm,
+                durationMin,
+                options
+            });
+
+            if (!basePrice) continue;
+
+            const adjustedTotal = this.round(basePrice.total * provider.priceMultiplier);
+            const etaMin = provider.etaRange[0];
+            const etaMax = provider.etaRange[1];
+            const eta = Math.floor(Math.random() * (etaMax - etaMin + 1)) + etaMin;
+
+            results.push({
+                key,
+                name: provider.name,
+                color: provider.color,
+                price: adjustedTotal,
+                lowPrice: this.round(adjustedTotal * 0.88),
+                highPrice: this.round(adjustedTotal * 1.15),
+                eta: eta,
+                currency: 'MAD'
+            });
+        }
+
+        // Sort by price (cheapest first)
+        results.sort((a, b) => a.price - b.price);
+
+        // Mark cheapest
+        if (results.length > 0) {
+            results[0].cheapest = true;
+        }
+
+        return results;
+    },
+
+    /**
+     * Estimate duration from distance (average city speed ~25 km/h)
+     */
+    estimateDuration(distanceKm) {
+        const avgSpeedKmH = 25;
+        const minutes = (distanceKm / avgSpeedKmH) * 60;
+        return Math.round(minutes);
+    },
+
+    /**
+     * Format price for display
+     */
+    formatPrice(amount) {
+        return amount.toFixed(1);
+    },
+
+    /**
+     * Round to one decimal
+     */
+    round(value) {
+        return Math.round(value * 10) / 10;
+    },
+
+    /**
+     * Get a negotiation tip based on the calculated price
+     */
+    getTip(total, vehicle) {
+        if (vehicle === 'petit_taxi') {
+            return 'Always insist the driver uses the meter (compteur). It is your legal right in Morocco.';
+        }
+        if (vehicle === 'grand_taxi') {
+            const perSeat = Math.round(total / 6);
+            return `For shared Grand Taxi, you can expect ~${perSeat} MAD per seat. Private hire costs the full amount.`;
+        }
+        if (vehicle === 'indriver') {
+            const suggest = Math.round(total * 0.85);
+            return `Start your offer around ${suggest} MAD and negotiate from there. Most drivers accept within 10-15% of the app estimate.`;
+        }
+        return `Compare prices across apps before booking for the best deal.`;
+    }
+};
+    </script>
+    <script>
+/**
+ * Map Module - Leaflet-based interactive map
+ */
+const MapModule = {
+    map: null,
+    pickupMarker: null,
+    dropoffMarker: null,
+    routeLine: null,
+    clickMode: 'pickup', // 'pickup' or 'dropoff'
+    landmarkMarkers: [],
+
+    /**
+     * Initialize the map centered on a city
+     */
+    init(cityKey) {
+        const city = CITIES[cityKey];
+        if (!city) return;
+
+        // Destroy existing map if any
+        if (this.map) {
+            this.map.remove();
+            this.map = null;
+        }
+
+        this.map = L.map('map', {
+            zoomControl: true,
+            attributionControl: true
+        }).setView(city.center, city.zoom);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 18
+        }).addTo(this.map);
+
+        // Add landmarks as small markers
+        this.addLandmarks(cityKey);
+
+        // Click handler
+        this.map.on('click', (e) => this.onMapClick(e));
+
+        // Reset markers
+        this.pickupMarker = null;
+        this.dropoffMarker = null;
+        this.routeLine = null;
+        this.clickMode = 'pickup';
+        this.updateHint();
+    },
+
+    /**
+     * Add landmark markers to the map
+     */
+    addLandmarks(cityKey) {
+        // Clear existing
+        this.landmarkMarkers.forEach(m => m.remove());
+        this.landmarkMarkers = [];
+
+        const city = CITIES[cityKey];
+        if (!city) return;
+
+        city.landmarks.forEach(lm => {
+            const marker = L.circleMarker(lm.coords, {
+                radius: 5,
+                fillColor: '#457b9d',
+                color: '#1d3557',
+                weight: 1,
+                fillOpacity: 0.6
+            }).addTo(this.map);
+
+            marker.bindTooltip(lm.name, {
+                direction: 'top',
+                offset: [0, -8],
+                className: 'landmark-tooltip'
+            });
+
+            // Clicking a landmark sets it as current point
+            marker.on('click', (e) => {
+                L.DomEvent.stopPropagation(e);
+                this.setPoint(lm.coords, lm.name);
+            });
+
+            this.landmarkMarkers.push(marker);
+        });
+    },
+
+    /**
+     * Handle map click
+     */
+    onMapClick(e) {
+        this.setPoint([e.latlng.lat, e.latlng.lng], null);
+    },
+
+    /**
+     * Set a pickup or dropoff point
+     */
+    setPoint(coords, name) {
+        const pickupIcon = L.divIcon({
+            html: '<div style="background:#2a9d8f;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+            className: ''
+        });
+
+        const dropoffIcon = L.divIcon({
+            html: '<div style="background:#e63946;width:16px;height:16px;border-radius:50%;border:3px solid white;box-shadow:0 2px 6px rgba(0,0,0,0.3);"></div>',
+            iconSize: [16, 16],
+            iconAnchor: [8, 8],
+            className: ''
+        });
+
+        if (this.clickMode === 'pickup') {
+            if (this.pickupMarker) this.pickupMarker.remove();
+            this.pickupMarker = L.marker(coords, { icon: pickupIcon, draggable: true })
+                .addTo(this.map)
+                .bindPopup(name ? `<b>Pickup:</b> ${name}` : '<b>Pickup Point</b>');
+
+            this.pickupMarker.on('dragend', () => this.onMarkerDrag());
+
+            // Update input
+            const pickupInput = document.getElementById('pickup');
+            pickupInput.value = name || `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
+
+            // Dispatch event
+            document.dispatchEvent(new CustomEvent('pickup-set', { detail: { coords, name } }));
+
+            this.clickMode = 'dropoff';
+        } else {
+            if (this.dropoffMarker) this.dropoffMarker.remove();
+            this.dropoffMarker = L.marker(coords, { icon: dropoffIcon, draggable: true })
+                .addTo(this.map)
+                .bindPopup(name ? `<b>Drop-off:</b> ${name}` : '<b>Drop-off Point</b>');
+
+            this.dropoffMarker.on('dragend', () => this.onMarkerDrag());
+
+            // Update input
+            const dropoffInput = document.getElementById('dropoff');
+            dropoffInput.value = name || `${coords[0].toFixed(4)}, ${coords[1].toFixed(4)}`;
+
+            // Dispatch event
+            document.dispatchEvent(new CustomEvent('dropoff-set', { detail: { coords, name } }));
+
+            this.clickMode = 'pickup';
+        }
+
+        this.updateHint();
+        this.drawRoute();
+    },
+
+    /**
+     * Handle marker drag
+     */
+    onMarkerDrag() {
+        if (this.pickupMarker) {
+            const pos = this.pickupMarker.getLatLng();
+            document.getElementById('pickup').value = `${pos.lat.toFixed(4)}, ${pos.lng.toFixed(4)}`;
+        }
+        if (this.dropoffMarker) {
+            const pos = this.dropoffMarker.getLatLng();
+            document.getElementById('dropoff').value = `${pos.lat.toFixed(4)}, ${pos.lng.toFixed(4)}`;
+        }
+        this.drawRoute();
+    },
+
+    /**
+     * Draw route line between pickup and dropoff
+     */
+    drawRoute() {
+        if (this.routeLine) {
+            this.routeLine.remove();
+            this.routeLine = null;
+        }
+
+        if (!this.pickupMarker || !this.dropoffMarker) return;
+
+        const p1 = this.pickupMarker.getLatLng();
+        const p2 = this.dropoffMarker.getLatLng();
+
+        this.routeLine = L.polyline([p1, p2], {
+            color: '#e63946',
+            weight: 4,
+            opacity: 0.7,
+            dashArray: '8, 8'
+        }).addTo(this.map);
+
+        // Fit bounds to show both points
+        const bounds = L.latLngBounds([p1, p2]);
+        this.map.fitBounds(bounds, { padding: [50, 50] });
+
+        // Calculate distance
+        const distance = this.calculateDistance(p1, p2);
+        const duration = PricingEngine.estimateDuration(distance);
+
+        document.dispatchEvent(new CustomEvent('route-calculated', {
+            detail: { distance, duration }
+        }));
+    },
+
+    /**
+     * Calculate distance between two points using Haversine formula
+     * Returns distance in km with a city-driving adjustment factor
+     */
+    calculateDistance(p1, p2) {
+        const R = 6371; // Earth's radius in km
+        const dLat = this.toRad(p2.lat - p1.lat);
+        const dLng = this.toRad(p2.lng - p1.lng);
+
+        const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                  Math.cos(this.toRad(p1.lat)) * Math.cos(this.toRad(p2.lat)) *
+                  Math.sin(dLng / 2) * Math.sin(dLng / 2);
+
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        const straightLine = R * c;
+
+        // City driving factor: roads are ~1.35x longer than straight line
+        const cityDrivingFactor = 1.35;
+        return Math.round(straightLine * cityDrivingFactor * 10) / 10;
+    },
+
+    toRad(deg) {
+        return deg * (Math.PI / 180);
+    },
+
+    /**
+     * Swap pickup and dropoff
+     */
+    swapPoints() {
+        if (!this.pickupMarker || !this.dropoffMarker) return;
+
+        const pPos = this.pickupMarker.getLatLng();
+        const dPos = this.dropoffMarker.getLatLng();
+
+        const pName = document.getElementById('pickup').value;
+        const dName = document.getElementById('dropoff').value;
+
+        // Remove and recreate with swapped positions
+        this.pickupMarker.remove();
+        this.dropoffMarker.remove();
+        this.pickupMarker = null;
+        this.dropoffMarker = null;
+
+        this.clickMode = 'pickup';
+        this.setPoint([dPos.lat, dPos.lng], dName);
+        this.setPoint([pPos.lat, pPos.lng], pName);
+    },
+
+    /**
+     * Set pickup from landmark by name
+     */
+    setPickupFromLandmark(cityKey, landmarkName) {
+        const city = CITIES[cityKey];
+        if (!city) return;
+
+        const lm = city.landmarks.find(l => l.name === landmarkName);
+        if (!lm) return;
+
+        this.clickMode = 'pickup';
+        this.setPoint(lm.coords, lm.name);
+    },
+
+    /**
+     * Set dropoff from landmark by name
+     */
+    setDropoffFromLandmark(cityKey, landmarkName) {
+        const city = CITIES[cityKey];
+        if (!city) return;
+
+        const lm = city.landmarks.find(l => l.name === landmarkName);
+        if (!lm) return;
+
+        this.clickMode = 'dropoff';
+        this.setPoint(lm.coords, lm.name);
+    },
+
+    /**
+     * Get landmarks for search suggestions
+     */
+    searchLandmarks(cityKey, query) {
+        const city = CITIES[cityKey];
+        if (!city || !query) return [];
+
+        const q = query.toLowerCase();
+        return city.landmarks.filter(lm =>
+            lm.name.toLowerCase().includes(q)
+        );
+    },
+
+    /**
+     * Update map hint text
+     */
+    updateHint() {
+        const hint = document.getElementById('mapHint');
+        if (!hint) return;
+
+        if (!this.pickupMarker) {
+            hint.textContent = 'Click on the map to set your pickup point';
+            hint.style.opacity = '1';
+        } else if (!this.dropoffMarker) {
+            hint.textContent = 'Now click to set your drop-off point';
+            hint.style.opacity = '1';
+        } else {
+            hint.style.opacity = '0';
+        }
+    },
+
+    /**
+     * Use browser geolocation
+     */
+    locateUser() {
+        if (!navigator.geolocation) {
+            alert('Geolocation is not supported by your browser');
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+                const coords = [position.coords.latitude, position.coords.longitude];
+                this.clickMode = 'pickup';
+                this.setPoint(coords, 'My Location');
+                this.map.setView(coords, 15);
+            },
+            () => {
+                alert('Unable to retrieve your location');
+            }
+        );
+    }
+};
+    </script>
+    <script>
+/**
+ * Main Application Controller
+ */
+const App = {
+    state: {
+        selectedCity: null,
+        selectedVehicle: null,
+        distance: null,
+        duration: null,
+        options: {
+            nightRide: false,
+            peakHours: false,
+            acRequired: false,
+            luggage: false
+        }
+    },
+
+    /**
+     * Initialize the app
+     */
+    init() {
+        this.renderCities();
+        this.renderVehicles();
+        this.bindEvents();
+        this.autoDetectTimeOptions();
+    },
+
+    /**
+     * Render city selection cards
+     */
+    renderCities() {
+        const grid = document.getElementById('cityGrid');
+        grid.innerHTML = '';
+
+        for (const [key, city] of Object.entries(CITIES)) {
+            const card = document.createElement('div');
+            card.className = 'city-card';
+            card.dataset.city = key;
+            card.innerHTML = `
+                <span class="city-emoji">${city.emoji}</span>
+                <span class="city-name">${city.name}</span>
+                <span class="city-name-ar">${city.nameAr}</span>
+            `;
+            card.addEventListener('click', () => this.selectCity(key));
+            grid.appendChild(card);
+        }
+    },
+
+    /**
+     * Render vehicle type cards
+     */
+    renderVehicles() {
+        const grid = document.getElementById('vehicleGrid');
+        grid.innerHTML = '';
+
+        for (const [key, vehicle] of Object.entries(VEHICLES)) {
+            const card = document.createElement('div');
+            card.className = 'vehicle-card';
+            card.dataset.vehicle = key;
+            card.innerHTML = `
+                <span class="vehicle-icon">${vehicle.icon}</span>
+                <span class="vehicle-name">${vehicle.name}</span>
+                <span class="vehicle-capacity">${vehicle.capacity}</span>
+                <span class="vehicle-base">${vehicle.baseFare} MAD base</span>
+            `;
+            card.addEventListener('click', () => this.selectVehicle(key));
+            grid.appendChild(card);
+        }
+    },
+
+    /**
+     * Bind all event listeners
+     */
+    bindEvents() {
+        // Swap button
+        document.getElementById('swapBtn').addEventListener('click', () => {
+            MapModule.swapPoints();
+        });
+
+        // Locate button
+        document.getElementById('locateBtn').addEventListener('click', () => {
+            MapModule.locateUser();
+        });
+
+        // Option toggles
+        ['nightRide', 'peakHours', 'acRequired', 'luggage'].forEach(opt => {
+            document.getElementById(opt).addEventListener('change', (e) => {
+                this.state.options[opt] = e.target.checked;
+                this.recalculate();
+            });
+        });
+
+        // Route calculated event
+        document.addEventListener('route-calculated', (e) => {
+            this.state.distance = e.detail.distance;
+            this.state.duration = e.detail.duration;
+            this.updateRouteInfo();
+            this.recalculate();
+        });
+
+        // Location input suggestions
+        this.setupSuggestions('pickup', 'pickupSuggestions');
+        this.setupSuggestions('dropoff', 'dropoffSuggestions');
+    },
+
+    /**
+     * Setup autocomplete suggestions for location inputs
+     */
+    setupSuggestions(inputId, suggestionsId) {
+        const input = document.getElementById(inputId);
+        const suggestionsEl = document.getElementById(suggestionsId);
+
+        input.addEventListener('input', () => {
+            if (!this.state.selectedCity) return;
+
+            const query = input.value.trim();
+            if (query.length < 2) {
+                suggestionsEl.classList.remove('active');
+                return;
+            }
+
+            const results = MapModule.searchLandmarks(this.state.selectedCity, query);
+            if (results.length === 0) {
+                suggestionsEl.classList.remove('active');
+                return;
+            }
+
+            suggestionsEl.innerHTML = '';
+            results.forEach(lm => {
+                const item = document.createElement('div');
+                item.className = 'suggestion-item';
+                item.textContent = lm.name;
+                item.addEventListener('click', () => {
+                    input.value = lm.name;
+                    suggestionsEl.classList.remove('active');
+
+                    if (inputId === 'pickup') {
+                        MapModule.setPickupFromLandmark(this.state.selectedCity, lm.name);
+                    } else {
+                        MapModule.setDropoffFromLandmark(this.state.selectedCity, lm.name);
+                    }
+                });
+                suggestionsEl.appendChild(item);
+            });
+
+            suggestionsEl.classList.add('active');
+        });
+
+        // Close suggestions on click outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.input-group')) {
+                suggestionsEl.classList.remove('active');
+            }
+        });
+    },
+
+    /**
+     * Select a city
+     */
+    selectCity(cityKey) {
+        this.state.selectedCity = cityKey;
+        this.state.distance = null;
+        this.state.duration = null;
+
+        // Update UI
+        document.querySelectorAll('.city-card').forEach(card => {
+            card.classList.toggle('active', card.dataset.city === cityKey);
+        });
+
+        // Clear inputs
+        document.getElementById('pickup').value = '';
+        document.getElementById('dropoff').value = '';
+        document.getElementById('distanceValue').textContent = '--';
+        document.getElementById('durationValue').textContent = '--';
+
+        // Initialize map for selected city
+        MapModule.init(cityKey);
+
+        // Recalculate (will show empty state)
+        this.recalculate();
+
+        // Scroll to route section
+        document.querySelector('.route-selection').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    },
+
+    /**
+     * Select a vehicle type
+     */
+    selectVehicle(vehicleKey) {
+        this.state.selectedVehicle = vehicleKey;
+
+        document.querySelectorAll('.vehicle-card').forEach(card => {
+            card.classList.toggle('active', card.dataset.vehicle === vehicleKey);
+        });
+
+        this.recalculate();
+    },
+
+    /**
+     * Update route info display
+     */
+    updateRouteInfo() {
+        const distEl = document.getElementById('distanceValue');
+        const durEl = document.getElementById('durationValue');
+
+        if (this.state.distance) {
+            distEl.textContent = `${this.state.distance} km`;
+        } else {
+            distEl.textContent = '--';
+        }
+
+        if (this.state.duration) {
+            durEl.textContent = `${this.state.duration} min`;
+        } else {
+            durEl.textContent = '--';
+        }
+    },
+
+    /**
+     * Recalculate all prices
+     */
+    recalculate() {
+        const breakdown = document.getElementById('priceBreakdown');
+        const providerSection = document.getElementById('providerSection');
+
+        // Need all inputs
+        if (!this.state.selectedCity || !this.state.selectedVehicle || !this.state.distance) {
+            breakdown.innerHTML = `
+                <div class="price-empty">
+                    <p>Select a city, set your route, and choose a vehicle to see price estimates</p>
+                </div>
+            `;
+            providerSection.style.display = 'none';
+            return;
+        }
+
+        // Calculate price
+        const result = PricingEngine.calculate({
+            city: this.state.selectedCity,
+            vehicle: this.state.selectedVehicle,
+            distanceKm: this.state.distance,
+            durationMin: this.state.duration,
+            options: this.state.options
+        });
+
+        if (!result) return;
+
+        // Build breakdown HTML
+        let html = '';
+
+        html += this.priceLineHTML('Base fare', `${result.baseFare} MAD`);
+        html += this.priceLineHTML(`Distance (${this.state.distance} km)`, `${result.distanceCost} MAD`);
+        html += this.priceLineHTML(`Time (~${this.state.duration} min)`, `${result.timeCost} MAD`);
+
+        if (result.cityMultiplier !== 1.0) {
+            const label = result.cityMultiplier > 1 ? 'City premium' : 'City discount';
+            html += this.priceLineHTML(label, `x${result.cityMultiplier}`);
+        }
+
+        html += `<div class="price-line subtotal">
+            <span class="price-line-label">Subtotal</span>
+            <span class="price-line-value">${result.subtotal} MAD</span>
+        </div>`;
+
+        if (result.nightSurcharge > 0) {
+            html += this.priceLineHTML('Night surcharge (+30%)', `+${result.nightSurcharge} MAD`);
+        }
+        if (result.peakSurcharge > 0) {
+            html += this.priceLineHTML('Peak hours (+20%)', `+${result.peakSurcharge} MAD`);
+        }
+        if (result.acCharge > 0) {
+            html += this.priceLineHTML('Air conditioning', `+${result.acCharge} MAD`);
+        }
+        if (result.luggageCharge > 0) {
+            html += this.priceLineHTML('Luggage', `+${result.luggageCharge} MAD`);
+        }
+
+        html += `
+            <div class="price-total">
+                <span class="price-total-label">Estimated Total</span>
+                <span class="price-total-value">
+                    ${result.total}
+                    <span class="price-total-currency">MAD</span>
+                </span>
+            </div>
+        `;
+
+        html += `
+            <div class="price-range">
+                Typical range: <strong>${result.lowEstimate} - ${result.highEstimate} MAD</strong>
+            </div>
+        `;
+
+        // Add tip
+        const tip = PricingEngine.getTip(result.total, this.state.selectedVehicle);
+        html += `
+            <div class="price-tip">
+                <span>\ud83d\udca1</span>
+                <span>${tip}</span>
+            </div>
+        `;
+
+        breakdown.innerHTML = html;
+
+        // Provider comparison
+        this.renderProviders();
+
+        // Scroll to results
+        document.getElementById('priceResults').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    },
+
+    /**
+     * Render provider comparison
+     */
+    renderProviders() {
+        const section = document.getElementById('providerSection');
+        const grid = document.getElementById('providerGrid');
+
+        if (!this.state.selectedCity || !this.state.distance) {
+            section.style.display = 'none';
+            return;
+        }
+
+        const providers = PricingEngine.getProviderPrices(
+            this.state.selectedCity,
+            this.state.distance,
+            this.state.duration,
+            this.state.options
+        );
+
+        if (providers.length === 0) {
+            section.style.display = 'none';
+            return;
+        }
+
+        section.style.display = 'block';
+        grid.innerHTML = '';
+
+        providers.forEach(p => {
+            const card = document.createElement('div');
+            card.className = `provider-card${p.cheapest ? ' cheapest' : ''}`;
+
+            const initials = p.name.substring(0, 2).toUpperCase();
+
+            card.innerHTML = `
+                <div class="provider-left">
+                    <div class="provider-logo" style="background: ${p.color};">
+                        ${initials}
+                    </div>
+                    <div class="provider-info">
+                        <span class="provider-name">${p.name}</span>
+                        <span class="provider-eta">ETA: ~${p.eta} min</span>
+                    </div>
+                </div>
+                <div class="provider-right">
+                    <span class="provider-price">${p.price} MAD</span>
+                    ${p.cheapest ? '<span class="provider-badge">Best Price</span>' : ''}
+                </div>
+            `;
+
+            grid.appendChild(card);
+        });
+    },
+
+    /**
+     * Helper to create a price line
+     */
+    priceLineHTML(label, value) {
+        return `
+            <div class="price-line">
+                <span class="price-line-label">${label}</span>
+                <span class="price-line-value">${value}</span>
+            </div>
+        `;
+    },
+
+    /**
+     * Auto-detect time-based options
+     */
+    autoDetectTimeOptions() {
+        const hour = new Date().getHours();
+
+        // Night: 10 PM - 6 AM
+        if (hour >= 22 || hour < 6) {
+            document.getElementById('nightRide').checked = true;
+            this.state.options.nightRide = true;
+        }
+
+        // Peak: 7-9 AM or 5-7 PM
+        if ((hour >= 7 && hour <= 9) || (hour >= 17 && hour <= 19)) {
+            document.getElementById('peakHours').checked = true;
+            this.state.options.peakHours = true;
+        }
+    }
+};
+
+// Start the app when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+    App.init();
+});
+    </script>
 </body>
 </html>
