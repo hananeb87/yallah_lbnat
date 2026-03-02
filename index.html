@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yallah Lbnat - Ride Price Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="logo">
+                <span class="logo-icon">🚖</span>
+                <h1>Yallah Lbnat</h1>
+            </div>
+            <p class="tagline">Smart Ride Price Calculator for Morocco</p>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- City Selection -->
+            <section class="card city-selection">
+                <h2 class="card-title">
+                    <span class="step-badge">1</span>
+                    Select City
+                </h2>
+                <div class="city-grid" id="cityGrid">
+                    <!-- Cities populated by JS -->
+                </div>
+            </section>
+
+            <!-- Route Selection -->
+            <section class="card route-selection">
+                <h2 class="card-title">
+                    <span class="step-badge">2</span>
+                    Set Your Route
+                </h2>
+                <div class="route-inputs">
+                    <div class="input-group">
+                        <label for="pickup">
+                            <span class="dot pickup-dot"></span>
+                            Pickup Location
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="pickup" placeholder="Enter pickup address or click map..." autocomplete="off">
+                            <button class="locate-btn" id="locateBtn" title="Use my location">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="3"/>
+                                    <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="suggestions-list" id="pickupSuggestions"></div>
+                    </div>
+                    <div class="route-connector">
+                        <div class="connector-line"></div>
+                        <button class="swap-btn" id="swapBtn" title="Swap locations">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M7 16V4m0 0L3 8m4-4l4 4M17 8v12m0 0l4-4m-4 4l-4-4"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-group">
+                        <label for="dropoff">
+                            <span class="dot dropoff-dot"></span>
+                            Drop-off Location
+                        </label>
+                        <div class="input-wrapper">
+                            <input type="text" id="dropoff" placeholder="Enter destination address or click map..." autocomplete="off">
+                        </div>
+                        <div class="suggestions-list" id="dropoffSuggestions"></div>
+                    </div>
+                </div>
+                <!-- Map -->
+                <div class="map-container">
+                    <div id="map"></div>
+                    <div class="map-hint" id="mapHint">Click on the map to set pickup and drop-off points</div>
+                </div>
+                <div class="route-info" id="routeInfo">
+                    <div class="info-item">
+                        <span class="info-label">Distance</span>
+                        <span class="info-value" id="distanceValue">--</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Est. Duration</span>
+                        <span class="info-value" id="durationValue">--</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Vehicle Selection -->
+            <section class="card vehicle-selection">
+                <h2 class="card-title">
+                    <span class="step-badge">3</span>
+                    Choose Vehicle
+                </h2>
+                <div class="vehicle-grid" id="vehicleGrid">
+                    <!-- Vehicles populated by JS -->
+                </div>
+            </section>
+
+            <!-- Options -->
+            <section class="card options-section">
+                <h2 class="card-title">
+                    <span class="step-badge">4</span>
+                    Ride Options
+                </h2>
+                <div class="options-grid">
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Night Ride</span>
+                                <span class="option-desc">Between 10 PM - 6 AM (+30%)</span>
+                            </span>
+                            <input type="checkbox" id="nightRide">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Peak Hours</span>
+                                <span class="option-desc">Rush hour surcharge (+20%)</span>
+                            </span>
+                            <input type="checkbox" id="peakHours">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">AC Required</span>
+                                <span class="option-desc">Air conditioning (+5 MAD)</span>
+                            </span>
+                            <input type="checkbox" id="acRequired">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                    <div class="option-item">
+                        <label class="toggle-label">
+                            <span class="option-text">
+                                <span class="option-name">Luggage</span>
+                                <span class="option-desc">Extra luggage (+10 MAD)</span>
+                            </span>
+                            <input type="checkbox" id="luggage">
+                            <span class="toggle-switch"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Price Results -->
+            <section class="card price-results" id="priceResults">
+                <h2 class="card-title">
+                    <span class="step-badge">★</span>
+                    Estimated Prices
+                </h2>
+                <div class="price-breakdown" id="priceBreakdown">
+                    <div class="price-empty">
+                        <p>Select a city, set your route, and choose a vehicle to see price estimates</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Provider Comparison -->
+            <section class="card provider-comparison" id="providerSection" style="display:none;">
+                <h2 class="card-title">
+                    <span class="step-badge">★</span>
+                    Provider Comparison
+                </h2>
+                <div class="provider-grid" id="providerGrid">
+                    <!-- Providers populated by JS -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="app-footer">
+            <p>Prices are estimates and may vary. Yallah Lbnat &copy; 2026</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="js/cities.js"></script>
+    <script src="js/pricing.js"></script>
+    <script src="js/map.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
