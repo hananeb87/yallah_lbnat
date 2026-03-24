@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yallah Lbnat - Business Vision</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #fdf6f0; color: #333; }
+
+        .header {
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: white;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .header h1 { font-size: 2.8em; margin-bottom: 8px; letter-spacing: 2px; }
+        .header p { font-size: 1.3em; opacity: 0.9; }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px; }
+
+        /* Business Model Canvas */
+        .canvas-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #e84393;
+            margin: 20px 0 30px;
+            font-weight: 700;
+        }
+
+        .canvas {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+            grid-template-rows: auto auto;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .canvas-card {
+            background: white;
+            border-radius: 14px;
+            padding: 20px;
+            box-shadow: 0 3px 15px rgba(232, 67, 147, 0.1);
+            border-top: 4px solid #e84393;
+        }
+        .canvas-card h3 {
+            color: #e84393;
+            font-size: 0.95em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+        .canvas-card ul { list-style: none; }
+        .canvas-card li {
+            padding: 6px 0;
+            font-size: 0.9em;
+            border-bottom: 1px dashed #f8e6ef;
+            line-height: 1.4;
+        }
+        .canvas-card li:last-child { border-bottom: none; }
+
+        .card-partners { grid-column: 1; grid-row: 1; }
+        .card-activities { grid-column: 2; grid-row: 1; }
+        .card-value { grid-column: 3; grid-row: 1 / 3; border-top-color: #6c5ce7; }
+        .card-value h3 { color: #6c5ce7; }
+        .card-relationships { grid-column: 4; grid-row: 1; }
+        .card-segments { grid-column: 5; grid-row: 1 / 3; border-top-color: #00b894; }
+        .card-segments h3 { color: #00b894; }
+        .card-resources { grid-column: 2; grid-row: 2; }
+        .card-channels { grid-column: 4; grid-row: 2; }
+        .card-costs { grid-column: 1 / 3; grid-row: 3; border-top-color: #d63031; }
+        .card-costs h3 { color: #d63031; }
+        .card-revenue { grid-column: 4 / 6; grid-row: 3; border-top-color: #00b894; }
+        .card-revenue h3 { color: #00b894; }
+
+        /* User Journey */
+        .journey-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #6c5ce7;
+            margin: 40px 0 30px;
+            font-weight: 700;
+        }
+
+        .journey {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 0;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+        }
+        .journey-step {
+            text-align: center;
+            flex: 0 0 180px;
+            position: relative;
+        }
+        .journey-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #e84393, #fd79a8);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            margin: 0 auto 12px;
+            box-shadow: 0 4px 15px rgba(232, 67, 147, 0.3);
+        }
+        .journey-step h4 { font-size: 1em; color: #333; margin-bottom: 6px; }
+        .journey-step p { font-size: 0.82em; color: #777; line-height: 1.4; }
+        .journey-arrow {
+            flex: 0 0 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-top: 25px;
+            color: #e84393;
+            font-size: 1.5em;
+        }
+
+        /* Architecture */
+        .arch-title {
+            text-align: center;
+            font-size: 1.8em;
+            color: #00b894;
+            margin: 40px 0 30px;
+            font-weight: 700;
+        }
+
+        .arch {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+        .arch-layer {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            width: 260px;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+            text-align: center;
+        }
+        .arch-layer h3 {
+            font-size: 1.1em;
+            margin-bottom: 14px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        .arch-layer .tech-tag {
+            display: inline-block;
+            background: #f8f8f8;
+            border: 1px solid #eee;
+            border-radius: 20px;
+            padding: 5px 14px;
+            margin: 4px;
+            font-size: 0.85em;
+            color: #555;
+        }
+        .layer-client h3 { color: #e84393; }
+        .layer-server h3 { color: #6c5ce7; }
+        .layer-infra h3 { color: #00b894; }
+        .layer-services h3 { color: #fdcb6e; color: #e17055; }
+
+        /* Differentiators */
+        .diff-section {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .diff-section h2 { font-size: 1.8em; margin-bottom: 25px; }
+        .diff-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+        .diff-item {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            width: 200px;
+        }
+        .diff-item .icon { font-size: 2em; margin-bottom: 10px; }
+        .diff-item h4 { margin-bottom: 6px; font-size: 1em; }
+        .diff-item p { font-size: 0.85em; opacity: 0.85; }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #aaa;
+            font-size: 0.85em;
+        }
+
+        @media (max-width: 900px) {
+            .canvas { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
+            .canvas-card { grid-column: auto !important; grid-row: auto !important; }
+            .journey { gap: 10px; }
+            .journey-arrow { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>YALLAH LBNAT</h1>
+    <p>Women-Only Mobility Services</p>
+</div>
+
+<div class="container">
+
+    <!-- BUSINESS MODEL CANVAS -->
+    <h2 class="canvas-title">Business Model Canvas</h2>
+    <div class="canvas">
+        <div class="canvas-card card-partners">
+            <h3>Key Partners</h3>
+            <ul>
+                <li>Women drivers network</li>
+                <li>Vehicle leasing companies</li>
+                <li>Insurance providers</li>
+                <li>Local women's organizations</li>
+                <li>Payment processors</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-activities">
+            <h3>Key Activities</h3>
+            <ul>
+                <li>Driver recruitment &amp; vetting</li>
+                <li>App development &amp; maintenance</li>
+                <li>Safety protocol management</li>
+                <li>Community building</li>
+                <li>Marketing &amp; partnerships</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-value">
+            <h3>Value Proposition</h3>
+            <ul>
+                <li><strong>Safe rides</strong> by women, for women</li>
+                <li>Verified women-only drivers</li>
+                <li>Culturally sensitive transport</li>
+                <li>Real-time trip sharing with trusted contacts</li>
+                <li>Economic empowerment for women drivers</li>
+                <li>Community &amp; trust</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-relationships">
+            <h3>Customer Relationships</h3>
+            <ul>
+                <li>In-app support &amp; chat</li>
+                <li>Community forums</li>
+                <li>Safety hotline 24/7</li>
+                <li>Loyalty rewards program</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-segments">
+            <h3>Customer Segments</h3>
+            <ul>
+                <li>Women commuters</li>
+                <li>University students</li>
+                <li>Working professionals</li>
+                <li>Mothers &amp; families</li>
+                <li>Elderly women</li>
+                <li>Women in conservative areas</li>
+            </ul>
+        </div>
+        <div class="canvas-card" style="grid-column:1; grid-row:2; border-top-color:#e84393;">
+            <h3>Key Partners (cont.)</h3>
+            <ul>
+                <li>Government transport authorities</li>
+                <li>Corporate partners for employee transport</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-resources">
+            <h3>Key Resources</h3>
+            <ul>
+                <li>Mobile app (iOS &amp; Android)</li>
+                <li>Driver fleet</li>
+                <li>Safety &amp; tracking systems</li>
+                <li>Brand &amp; community trust</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-channels">
+            <h3>Channels</h3>
+            <ul>
+                <li>Mobile app (primary)</li>
+                <li>Social media &amp; influencers</li>
+                <li>Word of mouth</li>
+                <li>University &amp; corporate partnerships</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-costs">
+            <h3>Cost Structure</h3>
+            <ul>
+                <li>App development &amp; cloud hosting</li>
+                <li>Driver incentives &amp; onboarding</li>
+                <li>Insurance &amp; compliance</li>
+                <li>Marketing &amp; customer acquisition</li>
+                <li>Operations &amp; support team</li>
+            </ul>
+        </div>
+        <div class="canvas-card card-revenue">
+            <h3>Revenue Streams</h3>
+            <ul>
+                <li>Commission per ride (15-25%)</li>
+                <li>Premium subscriptions (priority booking, discounts)</li>
+                <li>Corporate transport contracts</li>
+                <li>In-app advertising (women-focused brands)</li>
+                <li>Event transport partnerships</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- USER JOURNEY -->
+    <h2 class="journey-title">User Journey</h2>
+    <div class="journey">
+        <div class="journey-step">
+            <div class="journey-icon">1</div>
+            <h4>Download App</h4>
+            <p>Discover via social media or referral, install the app</p>
+        </div>
+        <div class="journey-arrow">&rarr;</div>
+        <div class="journey-step">
+            <div class="journey-icon">2</div>
+            <h4>Verified Signup</h4>
+            <p>Quick identity verification for safety</p>
+        </div>
+        <div class="journey-arrow">&rarr;</div>
+        <div class="journey-step">
+            <div class="journey-icon">3</div>
+            <h4>Book a Ride</h4>
+            <p>Enter destination, see women drivers nearby</p>
+        </div>
+        <div class="journey-arrow">&rarr;</div>
+        <div class="journey-step">
+            <div class="journey-icon">4</div>
+            <h4>Safe Travel</h4>
+            <p>Live tracking, trip sharing with trusted contacts</p>
+        </div>
+        <div class="journey-arrow">&rarr;</div>
+        <div class="journey-step">
+            <div class="journey-icon">5</div>
+            <h4>Rate &amp; Refer</h4>
+            <p>Rate your driver, earn referral rewards</p>
+        </div>
+    </div>
+
+    <!-- KEY DIFFERENTIATORS -->
+    <div class="diff-section">
+        <h2>What Makes Us Different</h2>
+        <div class="diff-grid">
+            <div class="diff-item">
+                <div class="icon">&#x1f6e1;</div>
+                <h4>Safety First</h4>
+                <p>All drivers verified, real-time tracking, emergency button</p>
+            </div>
+            <div class="diff-item">
+                <div class="icon">&#x1f46d;</div>
+                <h4>By Women, For Women</h4>
+                <p>100% women drivers &amp; passengers only</p>
+            </div>
+            <div class="diff-item">
+                <div class="icon">&#x1f30d;</div>
+                <h4>Cultural Sensitivity</h4>
+                <p>Designed for local norms &amp; comfort</p>
+            </div>
+            <div class="diff-item">
+                <div class="icon">&#x1f4aa;</div>
+                <h4>Empowerment</h4>
+                <p>Creating jobs &amp; independence for women drivers</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- SUGGESTED TECH ARCHITECTURE -->
+    <h2 class="arch-title">Suggested Tech Architecture</h2>
+    <div class="arch">
+        <div class="arch-layer layer-client">
+            <h3>Mobile App</h3>
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">Expo</span>
+            <span class="tech-tag">Maps SDK</span>
+            <span class="tech-tag">Push Notifications</span>
+        </div>
+        <div class="arch-layer layer-server">
+            <h3>Backend API</h3>
+            <span class="tech-tag">Node.js</span>
+            <span class="tech-tag">Express / Fastify</span>
+            <span class="tech-tag">PostgreSQL</span>
+            <span class="tech-tag">Redis</span>
+            <span class="tech-tag">WebSockets</span>
+        </div>
+        <div class="arch-layer layer-infra">
+            <h3>Infrastructure</h3>
+            <span class="tech-tag">AWS / GCP</span>
+            <span class="tech-tag">Docker</span>
+            <span class="tech-tag">CI/CD</span>
+            <span class="tech-tag">CDN</span>
+        </div>
+        <div class="arch-layer layer-services">
+            <h3>3rd Party Services</h3>
+            <span class="tech-tag">Stripe / PayPal</span>
+            <span class="tech-tag">Twilio (SMS)</span>
+            <span class="tech-tag">Google Maps</span>
+            <span class="tech-tag">Firebase Auth</span>
+        </div>
+    </div>
+
+</div>
+
+<div class="footer">
+    Yallah Lbnat &mdash; Business Vision &mdash; 2026
+</div>
+
+</body>
+</html>
